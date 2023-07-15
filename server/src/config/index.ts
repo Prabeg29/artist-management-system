@@ -16,4 +16,7 @@ export default {
     user    : process.env.DB_USERNAME || 'artist-management-system',
     password: process.env.DB_PASSWORD || ''
   },
+  secrets: {
+    jwt: process.env.JWT_SECRET,
+  }
 };

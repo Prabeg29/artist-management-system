@@ -28,6 +28,10 @@ export interface UserDto {
     created_at: string;
     updated_at: string;
   },
+  meta? : {
+    token_type?: string,
+    token?: string,
+  }
 }
 
 export type UserDtoCollection = UserDto[];

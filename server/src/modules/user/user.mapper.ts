@@ -1,7 +1,7 @@
 import { User, UserDto } from './user.type';
 
 export class UserMapper {
-  public static toDto (user: User): UserDto {
+  public static toDto (user: User & {token?: string;}): UserDto {
     return {
       id        : user.id,
       attributes: {
@@ -14,7 +14,11 @@ export class UserMapper {
         role      : user.role,
         created_at: user.created_at.toDateString(),
         updated_at: user.updated_at.toDateString(),
-      }
+      },
+      meta: user.token ? {
+        token_type: 'bearer',
+        token     : user.token,
+      } : undefined,
     };
   }
 }
