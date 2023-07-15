@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import { JsonWebTokenError } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 
 import logger from '@utils/logger';
@@ -6,6 +7,13 @@ import { HttpException } from '@exceptions/http.exception';
 import { ValidationException } from '@exceptions/validation.exception';
 
 const buildError = (error: Error) => {
+  if (error instanceof JsonWebTokenError) {
+    return {
+      statusCode: StatusCodes.UNAUTHORIZED,
+      message   : error.message,
+    };
+  }
+
   if (error instanceof ValidationException) {
     return {
       statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
@@ -15,7 +23,6 @@ const buildError = (error: Error) => {
   }
 
   if (error instanceof HttpException) {
-
     return {
       statusCode: error.statusCode,
       message   : error.message,
