@@ -21,8 +21,8 @@ export default knexInstance;
 interface PaginateOptions {
   currentPage: number;
   perPage: number;
-  selectParams: Array<string>;
-  countParam: string;
+  selectParams?: Array<string>;
+  countParam?: string;
 }
 
 export interface PaginationInfo {
