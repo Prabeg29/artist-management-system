@@ -1,17 +1,19 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import { UserInput } from './user.type';
+import { roles } from '@enums/roles.enum';
 import { UserMapper } from './user.mapper';
 import { UserService } from './user.service';
-import { AuthService } from '@modules/auth/auth.service';
+import { UserDto, UserInput } from './user.type';
+import { ArtistMapper } from '@modules/artists/artist.mapper';
+import { ArtistService } from '@modules/artists/artist.service';
+import { ArtistDto, ArtistInput } from '@modules/artists/artist.type';
 
 export class UserController {
   constructor(
     protected readonly userService: UserService,
-    protected readonly authService: AuthService
+    protected readonly artistService: ArtistService
   ) {}
-
   public index = async (
     req: Request<unknown, unknown, unknown, { currentPage?: string; perPage?: string;}>,
     res: Response
@@ -30,19 +32,23 @@ export class UserController {
     });
   };
 
-  public store = async (req: Request, res: Response): Promise<void> => { 
-    const user = await this.authService.signup(req.body as UserInput);
+  public store = async (req: Request, res: Response): Promise<void> => {
+    let user: UserDto | ArtistDto;
+    const { role }: { role: string; } = req.body;
 
-    res.status(StatusCodes.CREATED).json({
-      message: 'User created successfully.',
-      data   : UserMapper.toDto(user)
-    });
+    if (role === roles.ARTIST) {
+      user = ArtistMapper.toDto(await this.artistService.create(req.body as ArtistInput));
+    } else {
+      user = UserMapper.toDto(await this.userService.create(req.body as UserInput));
+    }
+
+    res.status(StatusCodes.CREATED).json({ message: 'User created successfully.', user });
   };
 
   public show = async (req: Request, res: Response): Promise<void> => { 
     const user = await this.userService.fetchOneById(parseInt(req.params.id));
 
-    res.status(StatusCodes.CREATED).json({
+    res.status(StatusCodes.OK).json({
       message: 'User fetched successfully.',
       data   : UserMapper.toDto(user)
     });
@@ -51,7 +57,7 @@ export class UserController {
   public update = async (req: Request, res: Response): Promise<void> => {
     const user = await this.userService.update(parseInt(req.params.id), req.body as UserInput);
 
-    res.status(StatusCodes.CREATED).json({
+    res.status(StatusCodes.OK).json({
       message: 'User updated successfully.',
       data   : UserMapper.toDto(user)
     });
@@ -60,8 +66,6 @@ export class UserController {
   public destroy = async (req: Request, res: Response): Promise<void> => {
     await this.userService.delete(parseInt(req.params.id));
 
-    res.status(StatusCodes.CREATED).json({
-      message: 'User deleted successfully.',
-    });
+    res.status(StatusCodes.OK).json({ message: 'User deleted successfully.' });
   };
 }

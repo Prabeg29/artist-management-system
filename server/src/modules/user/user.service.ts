@@ -1,12 +1,47 @@
-import {  User, UserInput } from '@modules/user/user.type';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { StatusCodes } from 'http-status-codes';
+
+import config from '@config';
 import { PaginationInfo } from '../../database';
 import { pagination } from '@enums/pagination.enum';
-import { UserRepositoryInterface } from '@modules/user/user.irepository';
+import { User, UserInput } from '@modules/user/user.type';
 import { HttpException } from '@exceptions/http.exception';
-import { StatusCodes } from 'http-status-codes';
+import { UserRepositoryInterface } from '@modules/user/user.irepository';
 
 export class UserService {
   constructor(protected readonly userRepository: UserRepositoryInterface) { }
+
+  public async create(userData: UserInput): Promise<User> {
+    const isExistingUser = await this.userRepository.fetchOneByEmail(userData.email);
+
+    if (isExistingUser) {
+      throw new HttpException('User with the provided email already exists',StatusCodes.BAD_REQUEST);
+    }
+
+    userData.password = await bcrypt.hash(userData.password, 10);
+
+    const [userId] = await this.userRepository.create(userData);
+
+    return await this.userRepository.fetchOneById(userId);
+  }
+
+  public async signin(userData: UserInput): Promise<User & { token: string; }> {
+    const isExistingUser = await this.userRepository.fetchOneByEmail(userData.email);
+    const isPasswordValid = await bcrypt.compare(userData.password, isExistingUser.password || '');
+
+    if (!isExistingUser || !isPasswordValid) {
+      throw new HttpException('Invalid credentials', StatusCodes.UNAUTHORIZED);
+    }
+
+    const authToken = jwt.sign(
+      { userId: isExistingUser.id }, 
+      config.secrets.jwt, 
+      { expiresIn: '1h' }
+    );
+
+    return { ...isExistingUser, token: authToken};
+  }
 
   public async fetchAllPaginated(
     currentPage: string, 
@@ -19,17 +54,25 @@ export class UserService {
   }
 
   public async fetchOneById(id: number): Promise<User> {
-    const user: User =  await this.fetchOneById(id);
+    const user: User =  await this.userRepository.fetchOneById(id);
 
     if (!user) {
       throw new HttpException('User with the given id does not exists', StatusCodes.NOT_FOUND);
     }
 
-    return await this.userRepository.fetchOneById(id);
+    return user;
   }
 
   public async update(id: number, userData: UserInput): Promise<User> {
     const user: User =  await this.fetchOneById(id);
+
+    if (userData.email) {
+      const isExistingUser = await this.userRepository.fetchOneByEmail(userData.email);
+
+      if (isExistingUser) {
+        throw new HttpException('User with the provided email already exists',StatusCodes.BAD_REQUEST);
+      }
+    }
 
     await this.userRepository.update(user.id, userData);
     
@@ -42,7 +85,7 @@ export class UserService {
     const result = await this.userRepository.delete(user.id);
 
     if (!result) {
-      throw new Error('Todo not deleted');
+      throw new Error('Error while deleting user');
     }
   }
 }
