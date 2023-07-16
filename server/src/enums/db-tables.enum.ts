@@ -2,6 +2,6 @@
 
 export enum dbTables {
   ARTISTS = 'artists',
-  MUSIC = 'music',
-  USERS = 'user',
+  SONGS = 'songs',
+  USERS = 'users',
 }

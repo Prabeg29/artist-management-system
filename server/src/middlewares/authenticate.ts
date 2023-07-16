@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import jwt from 'jsonwebtoken';
+import { StatusCodes } from 'http-status-codes';
 import { NextFunction, Request, Response} from 'express';
 
 import config from '@config';
@@ -11,7 +12,7 @@ interface CustomRequest extends Request {
 
 export const authenticate = (req: CustomRequest, _res: Response, next: NextFunction) => {
   if (!req.headers.authorization) {
-    throw new HttpException('No token provided', 400);
+    throw new HttpException('No token provided', StatusCodes.UNAUTHORIZED);
   }
 
   const decoded: any = jwt.verify(req.headers.authorization, config.secrets.jwt);

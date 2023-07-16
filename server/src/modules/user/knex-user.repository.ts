@@ -1,5 +1,6 @@
 import { Knex } from 'knex';
 
+import logger from '@utils/logger';
 import { dbTables } from '@enums/db-tables.enum';
 import { paginate, PaginationInfo } from '../../database';
 import { User, UserInput } from '@modules/user/user.type';
@@ -23,12 +24,7 @@ export class KnexUserRepository implements UserRepositoryInterface {
   public async fetchAllPaginated(
     currentPage: number, perPage: number
   ): Promise<{ data: User[]; paginationInfo: PaginationInfo; }> {
-    const query = this.knex<User>(dbTables.USERS);
-
-    return await paginate<User>(query, {
-      currentPage,
-      perPage
-    });
+    return await paginate<User>(this.knex<User>(dbTables.USERS), { currentPage, perPage });
   }
 
   async update(id: number, userData: UserInput): Promise<boolean> {
@@ -36,6 +32,19 @@ export class KnexUserRepository implements UserRepositoryInterface {
   }
 
   async delete(id: number): Promise<number> {
-    return await this.knex(dbTables.USERS).where('id', id).del();
+    const trx = await this.knex.transaction();
+
+    try {
+      await this.knex(dbTables.ARTISTS).where('user_id', id).del();
+
+      await this.knex(dbTables.USERS).where('id', id).del();
+
+      await trx.commit();
+
+      return 1;
+    } catch (err) {
+      logger.error(err);
+      await trx.rollback();
+    }
   }
 }
