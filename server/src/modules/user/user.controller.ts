@@ -4,10 +4,9 @@ import { StatusCodes } from 'http-status-codes';
 import { roles } from '@enums/roles.enum';
 import { UserMapper } from './user.mapper';
 import { UserService } from './user.service';
-import { UserDto, UserInput } from './user.type';
-import { ArtistMapper } from '@modules/artists/artist.mapper';
+import { User, UserInput } from './user.type';
 import { ArtistService } from '@modules/artists/artist.service';
-import { ArtistDto, ArtistInput } from '@modules/artists/artist.type';
+import { Artist, ArtistInput } from '@modules/artists/artist.type';
 
 export class UserController {
   constructor(
@@ -33,16 +32,13 @@ export class UserController {
   };
 
   public store = async (req: Request, res: Response): Promise<void> => {
-    let user: UserDto | ArtistDto;
     const { role }: { role: string; } = req.body;
 
-    if (role === roles.ARTIST) {
-      user = ArtistMapper.toDto(await this.artistService.create(req.body as ArtistInput));
-    } else {
-      user = UserMapper.toDto(await this.userService.create(req.body as UserInput));
-    }
+    const user: User | Artist = role === roles.ARTIST ? 
+      await this.artistService.create(req.body as ArtistInput) :
+      await this.userService.create(req.body as UserInput);
 
-    res.status(StatusCodes.CREATED).json({ message: 'User created successfully.', user });
+    res.status(StatusCodes.CREATED).json({ message: 'User created successfully.', user: UserMapper.toDto(user)});
   };
 
   public show = async (req: Request, res: Response): Promise<void> => { 

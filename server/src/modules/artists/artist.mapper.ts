@@ -5,7 +5,7 @@ import { Artist, ArtistDto, ArtistDtoCollection } from './artist.type';
 export class ArtistMapper {
   public static toDto (artist: Artist): ArtistDto {
     return {
-      id        : artist.id,
+      id        : artist.artist_id,
       attributes: {
         name                     : artist.first_name + ' ' + artist.last_name,
         email                    : artist.email,
@@ -27,7 +27,7 @@ export class ArtistMapper {
       return {
         ...ArtistMapper.toDto(artist),
         meta: {
-          link: new URL(`${config.app.url}/api/artists/${artist.id}`),
+          link: new URL(`${config.app.url}/api/artists/${artist.artist_id}`),
         }
       };
     });
