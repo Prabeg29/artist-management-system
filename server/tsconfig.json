@@ -112,5 +112,6 @@
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   },
+  "include": ["src/**/*.ts"],
   "files": ["src/types/index.d.ts"]
 }

@@ -15,6 +15,7 @@ import { UpdateSongSchema } from '@modules/songs/validations/update-song.schema'
 import { CreateArtistSchema } from '@modules/artists/validations/create-artist.schema';
 import { UpdateArtistSchema } from '@modules/artists/validations/update-artist.schema';
 import { isSuperAdminOrArtistManager } from '@middlewares/isSuperAdminOrArtistManager';
+import { isSuperAdminOrArtist } from '@middlewares/isSuperAdminOrArtist';
 
 const router: Router = Router();
 const artistController = new ArtistController(new ArtistService(new KnexArtistRepository(knex)));
@@ -38,9 +39,26 @@ router.patch(
 );
 router.delete('/:id', authenticate, isSuperAdminOrArtistManager, tryCatchWrapper(artistController.destroy));
 
-router.get('/:artistId/songs', tryCatchWrapper(artistSongController.index));
-router.post('/:artistId/songs', validate(CreateSongSchema), tryCatchWrapper(artistSongController.store));
-router.patch('/:artistId/songs/:songId', validate(UpdateSongSchema), tryCatchWrapper(artistSongController.update));
-router.delete('/:artistId/songs/:songId', tryCatchWrapper(artistSongController.destroy));
+router.get('/:artistId/songs', authenticate, tryCatchWrapper(artistSongController.index));
+router.post(
+  '/:artistId/songs', 
+  authenticate, 
+  isSuperAdminOrArtist, 
+  validate(CreateSongSchema), 
+  tryCatchWrapper(artistSongController.store)
+);
+router.patch(
+  '/:artistId/songs/:songId', 
+  authenticate, 
+  isSuperAdminOrArtist, 
+  validate(UpdateSongSchema), 
+  tryCatchWrapper(artistSongController.update)
+);
+router.delete(
+  '/:artistId/songs/:songId', 
+  authenticate, 
+  isSuperAdminOrArtist, 
+  tryCatchWrapper(artistSongController.destroy)
+);
 
 export default router;
