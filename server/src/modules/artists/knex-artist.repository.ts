@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { Knex } from 'knex';
 
 import logger from '@utils/logger';
@@ -6,6 +7,7 @@ import { dbTables } from '@enums/db-tables.enum';
 import { paginate, PaginationInfo } from '../../database';
 import { Artist, ArtistInput } from '@modules/artists/artist.type';
 import { KnexUserRepository } from '@modules/user/knex-user.repository';
+import { UserInput } from '@modules/user/user.type';
 
 export class KnexArtistRepository extends KnexUserRepository {
   protected selectParams: Array<string> = [
@@ -16,6 +18,7 @@ export class KnexArtistRepository extends KnexUserRepository {
     `${dbTables.USERS}.phone`,
     `${dbTables.USERS}.dob`,
     `${dbTables.USERS}.gender`,
+    `${dbTables.USERS}.role`,
     `${dbTables.USERS}.address`,
     `${dbTables.ARTISTS}.id as artist_id`,
     `${dbTables.ARTISTS}.first_release_year`,
@@ -87,18 +90,29 @@ export class KnexArtistRepository extends KnexUserRepository {
     const trx = await this.knex.transaction();
 
     try {
-      await trx(dbTables.USERS)
-        .where('id', userId)
-        .update({
-          first_name: artistData.first_name,
-          last_name : artistData.last_name,
-          email     : artistData.email,
-          password  : artistData.password,
-          phone     : artistData.phone,
-          address   : artistData.address,
-          gender    : artistData.gender,
-          dob       : artistData.dob,
-        });
+      if (
+        artistData?.first_name || 
+        artistData?.last_name || 
+        artistData?.email || 
+        artistData?.password || 
+        artistData?.phone ||
+        artistData?.address ||
+        artistData?.gender ||
+        artistData?.dob
+      ) {
+        await trx(dbTables.USERS)
+          .where('id', userId)
+          .update({
+            first_name: artistData?.first_name,
+            last_name : artistData?.last_name,
+            email     : artistData?.email,
+            password  : artistData?.password,
+            phone     : artistData?.phone,
+            address   : artistData?.address,
+            gender    : artistData?.gender,
+            dob       : artistData?.dob,
+          });
+      }
 
       await trx(dbTables.ARTISTS)
         .where('user_id', userId)

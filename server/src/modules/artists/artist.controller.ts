@@ -43,11 +43,11 @@ export class ArtistController {
   };
 
   public update = async (req: Request, res: Response): Promise<void> => {
-    const user = await this.artistService.update(parseInt(req.params.id), req.body as ArtistInput);
+    const artist = await this.artistService.update(parseInt(req.params.id), req.body as ArtistInput);
 
     res.status(StatusCodes.OK).json({
       message: 'Artist updated successfully',
-      data   : ArtistMapper.toDto(user)
+      data   : ArtistMapper.toDto(artist)
     });
   };
 
