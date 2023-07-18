@@ -1,11 +1,12 @@
 import { User } from '@modules/user/user.type';
 
 export interface Artist extends User {
+  artist_id: number,
   first_release_year?: number;
   number_of_albums_released?: number;
 }
 
-export type ArtistInput = Omit<Artist, 'id' | 'role' | 'created_at' | 'updated_at'>; 
+export type ArtistInput = Omit<Artist, 'id' | 'role' | 'artist_id' | 'created_at' | 'updated_at'>; 
 
 export interface ArtistDto {
   id: number;

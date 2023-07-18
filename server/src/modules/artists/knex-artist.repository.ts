@@ -17,6 +17,7 @@ export class KnexArtistRepository extends KnexUserRepository {
     `${dbTables.USERS}.dob`,
     `${dbTables.USERS}.gender`,
     `${dbTables.USERS}.address`,
+    `${dbTables.ARTISTS}.id as artist_id`,
     `${dbTables.ARTISTS}.first_release_year`,
     `${dbTables.ARTISTS}.number_of_albums_released`,
     `${dbTables.ARTISTS}.created_at`,
@@ -77,7 +78,7 @@ export class KnexArtistRepository extends KnexUserRepository {
     return await this.knex<Artist>(dbTables.USERS)
       .join(dbTables.ARTISTS, `${dbTables.USERS}.id`, '=', `${dbTables.ARTISTS}.user_id`)
       .where(`${dbTables.USERS}.role`, roles.ARTIST)
-      .where(`${dbTables.ARTISTS}.user_id`, id)
+      .where(`${dbTables.ARTISTS}.id`, id)
       .select(this.selectParams)
       .first();
   }

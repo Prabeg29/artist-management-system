@@ -9,7 +9,7 @@ export class ArtistController {
   constructor(protected readonly artistService: ArtistService) {}
 
   public index = async (
-    req: Request<unknown, unknown, unknown, { currentPage?: string; perPage?: string;}>,
+    req: Request<unknown, unknown, unknown, { currentPage: string; perPage: string;}>,
     res: Response
   ): Promise<void> => { 
     const { data: artists, paginationInfo } = await this.artistService.fetchAllPaginated(
