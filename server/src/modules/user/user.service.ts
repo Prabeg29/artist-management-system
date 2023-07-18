@@ -35,9 +35,9 @@ export class UserService {
     }
 
     const authToken = jwt.sign(
-      { userId: isExistingUser.id }, 
+      { userId: isExistingUser.id, email: isExistingUser.email, role: isExistingUser.role }, 
       config.secrets.jwt, 
-      { expiresIn: '1h' }
+      { expiresIn: '15m' }
     );
 
     return { ...isExistingUser, token: authToken};
