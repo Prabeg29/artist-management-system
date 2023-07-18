@@ -59,15 +59,15 @@ export class KnexArtistRepository extends KnexUserRepository {
 
       }, ['id']);
 
-      await trx(dbTables.ARTISTS).insert({
+      const [artistId] = await trx(dbTables.ARTISTS).insert({
         user_id                  : userId,
         first_release_year       : artistData?.first_release_year,
         number_of_albums_released: artistData?.number_of_albums_released
-      });
+      }, ['id']);
 
       await trx.commit();
 
-      return [userId];
+      return [artistId];
     } catch (err) {
       logger.error(err);
       await trx.rollback();

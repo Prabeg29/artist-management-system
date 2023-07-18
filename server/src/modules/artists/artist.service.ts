@@ -10,6 +10,16 @@ import {  Artist, ArtistInput } from '@modules/artists/artist.type';
 export class ArtistService {
   constructor(protected readonly artistRepository: KnexArtistRepository) { }
 
+  public async fetchOneById(id: number): Promise<Artist> {
+    const artist: Artist =  await this.artistRepository.fetchOneById(id);
+
+    if (!artist) {
+      throw new HttpException('Artist with the given id does not exists', StatusCodes.NOT_FOUND);
+    }
+
+    return artist;
+  }
+
   public async create(artistData: ArtistInput): Promise<Artist> {
     const isExistingArtist = await this.artistRepository.fetchOneByEmail(artistData.email);
 
@@ -22,9 +32,9 @@ export class ArtistService {
 
     artistData.password = await bcrypt.hash(artistData.password, 10);
 
-    const [userId] = await this.artistRepository.create(artistData);
+    const [artistId] = await this.artistRepository.create(artistData);
 
-    return await this.artistRepository.fetchOneById(userId);
+    return await this.fetchOneById(artistId);
   }
 
   public async fetchAllPaginated(
@@ -35,16 +45,6 @@ export class ArtistService {
     const perPageNumber = Number(perPage) || pagination.DEFAULT_RECORDS_PER_PAGE;
 
     return await this.artistRepository.fetchAllPaginated(currentPageNumber, perPageNumber);
-  }
-
-  public async fetchOneById(id: number): Promise<Artist> {
-    const artist: Artist =  await this.artistRepository.fetchOneById(id);
-
-    if (!artist) {
-      throw new HttpException('Artist with the given id does not exists', StatusCodes.NOT_FOUND);
-    }
-
-    return artist;
   }
 
   public async update(id: number, artistData: ArtistInput): Promise<Artist> {

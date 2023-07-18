@@ -2,12 +2,11 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import { roles } from '@enums/roles.enum';
-import { UserInput } from '@modules/user/user.type';
 import { UserMapper } from '@modules/user/user.mapper';
 import { UserService } from '@modules/user/user.service';
-import { ArtistInput } from '@modules/artists/artist.type';
-import { ArtistMapper } from '@modules/artists/artist.mapper';
+import { User, UserInput } from '@modules/user/user.type';
 import { ArtistService } from '@modules/artists/artist.service';
+import { Artist, ArtistInput } from '@modules/artists/artist.type';
 
 export class AuthController {
   constructor(
@@ -18,21 +17,11 @@ export class AuthController {
   public signup = async (req: Request, res: Response): Promise<void> => {
     const { role }: { role: string; } = req.body;
 
-    if (role === roles.ARTIST) {
-      const artist = await this.artistService.create(req.body as ArtistInput);
+    const user: User | Artist = role === roles.ARTIST ? 
+      await this.artistService.create(req.body as ArtistInput) :
+      await this.userService.create(req.body as UserInput);
 
-      res.status(StatusCodes.CREATED).json({
-        message: 'User signup successful. Please login to proceed',
-        data   : ArtistMapper.toDto(artist)
-      });
-    } else {
-      const user = await this.userService.create(req.body as UserInput);
-
-      res.status(StatusCodes.CREATED).json({
-        message: 'User signup successful. Please login to proceed',
-        data   : UserMapper.toDto(user)
-      });
-    }
+    res.status(StatusCodes.CREATED).json({ message: 'User signup successful. Please login to proceed', user: UserMapper.toDto(user)});
   };
 
   public signin = async (req: Request, res: Response): Promise<void> => {
