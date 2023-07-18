@@ -1,6 +1,5 @@
 import { Knex } from 'knex';
 
-import logger from '@utils/logger';
 import { dbTables } from '@enums/db-tables.enum';
 import { paginate, PaginationInfo } from '../../database';
 import { User, UserInput } from '@modules/user/user.type';
@@ -32,19 +31,6 @@ export class KnexUserRepository implements UserRepositoryInterface {
   }
 
   async delete(id: number): Promise<number> {
-    const trx = await this.knex.transaction();
-
-    try {
-      await this.knex(dbTables.ARTISTS).where('user_id', id).del();
-
-      await this.knex(dbTables.USERS).where('id', id).del();
-
-      await trx.commit();
-
-      return 1;
-    } catch (err) {
-      logger.error(err);
-      await trx.rollback();
-    }
+    return await this.knex(dbTables.USERS).where('id', id).del();
   }
 }

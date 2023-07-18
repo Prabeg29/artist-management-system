@@ -5,9 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import { HttpException } from '@exceptions/http.exception';
 
 export const isSuperAdminOrArtistManager = async (req: Request, res: Response, next: NextFunction) => {
-  // const user = await (new KnexUserRepository(knex)).fetchOneById(req.userId);
-
-  if (req.role !== roles.ARTIST_MANAGER && req.role !== roles.SUPER_ADMIN) {
+  if (req.currentUser.role !== roles.ARTIST_MANAGER && req.currentUser.role !== roles.SUPER_ADMIN) {
     next(new HttpException('You are not authorized to view the resource', StatusCodes.FORBIDDEN));
   }
 

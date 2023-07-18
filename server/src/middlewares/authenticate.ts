@@ -12,7 +12,7 @@ export const authenticate = (req: Request, _res: Response, next: NextFunction) =
   }
 
   const decoded: any = jwt.verify(req.headers.authorization, config.secrets.jwt);
-  req.role = decoded.role;
+  req.currentUser = decoded;
 
   next();
 };

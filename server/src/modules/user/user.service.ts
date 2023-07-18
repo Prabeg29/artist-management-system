@@ -35,7 +35,7 @@ export class UserService {
     }
 
     const authToken = jwt.sign(
-      { userId: isExistingUser.id, email: isExistingUser.email, role: isExistingUser.role }, 
+      { id: isExistingUser.id, email: isExistingUser.email, role: isExistingUser.role }, 
       config.secrets.jwt, 
       { expiresIn: '15m' }
     );
