@@ -38,3 +38,20 @@ services:
       - ./server:/home/artist-management-system
     networks:
       - artist-management-system
+  
+  client:
+    build:
+      context: ./client/
+      dockerfile: Dockerfile
+    image: client_image
+    container_name: artist-management-system_client
+    depends_on:
+      - api
+    user: 1000:1000
+    working_dir: /home/artist-management-system
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client:/home/artist-management-system
+    networks:
+      - artist-management-system
