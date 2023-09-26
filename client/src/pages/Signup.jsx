@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { Box, Button, Container, CssBaseline, Grid, MenuItem, TextField, Typography } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const initialUserInfo = {
   firstName: "",
@@ -15,9 +18,7 @@ const initialUserInfo = {
 };
 
 const Signup = () => {
-  const { control, register, handleSubmit } = useForm({
-    defaultValues: initialUserInfo,
-  });
+  const { control, handleSubmit } = useForm({ defaultValues: initialUserInfo });
   const onSubmit = (data) => console.log(data);
 
   return (
@@ -37,75 +38,122 @@ const Signup = () => {
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
+              <Controller
                 name="firstName"
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-                {...register("firstName", { required: true })}
+                control={control}
+                rules={{ required: "First name is required" }}
+                render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    label="First Name"
+                    value={value}
+                    onChange={onChange}
+                    error={Boolean(error)}
+                    helperText={error?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
+              <Controller
                 name="lastName"
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                autoFocus
-                {...register("lastName", { required: true })}
+                control={control}
+                rules={{ required: "Last name is required" }}
+                render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    label="Last Name"
+                    value={value}
+                    onChange={onChange}
+                    error={Boolean(error)}
+                    helperText={error?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
+              <Controller
                 name="email"
-                fullWidth
-                id="email"
-                label="Email"
-                autoFocus
-                {...register("email", { required: true })}
+                control={control}
+                rules={{ required: "Email is required" }}
+                render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    label="Email"
+                    value={value}
+                    onChange={onChange}
+                    error={Boolean(error)}
+                    helperText={error?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <Controller
                 name="password"
-                fullWidth
-                id="password"
-                label="Password"
-                autoFocus
-                {...register("password", { required: true })}
+                control={control}
+                rules={{ required: "Password is required" }}
+                render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    label="Password"
+                    value={value}
+                    onChange={onChange}
+                    error={Boolean(error)}
+                    helperText={error?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <Controller
                 name="phone"
-                fullWidth
-                id="phone"
-                label="Phone"
-                autoFocus
-                {...register("phone", { required: true })}
+                control={control}
+                rules={{ required: "Phone is required" }}
+                render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    label="Phone"
+                    value={value}
+                    onChange={onChange}
+                    error={Boolean(error)}
+                    helperText={error?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField name="dob" fullWidth id="dob" label="DOB" autoFocus {...register("dob", { required: true })} />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Controller
+                  name="date"
+                  control={control}
+                  rules={{ required: "Date is required" }}
+                  render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
+                    <DatePicker value={value} onChange={onChange} />
+                  )}
+                />
+              </LocalizationProvider>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Controller
                 name="gender"
                 control={control}
-                render={({ field }) => (
+                rules={{ required: "Gender is required" }}
+                render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
                   <TextField
-                    {...field}
-                    name="gender"
-                    fullWidth
-                    id="gender"
-                    label="Gender"
                     autoFocus
+                    fullWidth
+                    label="Gender"
                     select
-                    {...register("gender", { required: true })}
+                    value={value}
+                    onChange={onChange}
+                    error={Boolean(error)}
+                    helperText={error?.message}
                   >
                     <MenuItem value="male">Male</MenuItem>
                     <MenuItem value="female">Female</MenuItem>
@@ -115,29 +163,38 @@ const Signup = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <Controller
                 name="address"
-                fullWidth
-                id="address"
-                label="Address"
-                autoFocus
-                {...register("address", { required: true })}
+                control={control}
+                rules={{ required: "Address is required" }}
+                render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    label="Address"
+                    value={value}
+                    onChange={onChange}
+                    error={Boolean(error)}
+                    helperText={error?.message}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <Controller
                 name="role"
                 control={control}
-                render={({ field }) => (
+                rules={{ required: "Gender is required" }}
+                render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
                   <TextField
-                    {...field}
-                    name="role"
-                    fullWidth
-                    id="role"
-                    label="Role"
                     autoFocus
+                    fullWidth
+                    label="Role"
                     select
-                    {...register("role", { required: true })}
+                    value={value}
+                    onChange={onChange}
+                    error={Boolean(error)}
+                    helperText={error?.message}
                   >
                     <MenuItem value="artist">Artist</MenuItem>
                     <MenuItem value="artist_manager">Artist Manager</MenuItem>
