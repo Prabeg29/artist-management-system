@@ -4,6 +4,8 @@ import { Box, Button, Container, CssBaseline, Grid, MenuItem, TextField, Typogra
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
 
 const initialUserInfo = {
   firstName: "",
@@ -17,8 +19,49 @@ const initialUserInfo = {
   role: "artist",
 };
 
+const schema = yup.object({
+    firstName: yup.string()
+        .ensure()
+        .max(255, "Must not be greater than 255 characters")
+        .required("Is a required field"),
+    lastName: yup.string()
+        .ensure()
+        .max(255, "Must not be greater than 255 characters")
+        .required("Is a required field"),
+    email: yup.string()
+        .ensure()
+        .email()
+        .max(255, "Must not be greater than 255 characters")
+        .required("Is a required field"),
+    password: yup.string()
+        .ensure()
+        .min(8, "Must not be less than 8 character")
+        .max(255, "Must not be greater than 255 characters")
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]*$/,
+         'Must have atleast 1 uppercase, 1 lowercase, 1 number, and 1 special character')
+        .required("Is a required field"),
+    phone: yup.string()
+        .ensure()
+        .max(20, "Must not be greater than 20 characters")
+        .required("Is a required field"),
+    dob: yup.date(),
+    gender: yup.string()
+        .ensure()
+        .matches(/(male|female|other)/)
+        .required("Is a required field"),
+    address: yup.string()
+        .ensure()
+        .max(255, "Must not be greater than 255 characters")
+        .required("Is a required field"),
+    role: yup.string()
+        .ensure()
+        .matches(/(artist|artist_manager)/)
+        .required("Is a required field"),
+})
+.required();
+
 const Signup = () => {
-  const { control, handleSubmit } = useForm({ defaultValues: initialUserInfo });
+  const { control, handleSubmit } = useForm({ defaultValues: initialUserInfo, resolver: yupResolver(schema) });
   const onSubmit = (data) => console.log(data);
 
   return (
@@ -41,7 +84,6 @@ const Signup = () => {
               <Controller
                 name="firstName"
                 control={control}
-                rules={{ required: "First name is required" }}
                 render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
                   <TextField
                     autoFocus
@@ -59,7 +101,6 @@ const Signup = () => {
               <Controller
                 name="lastName"
                 control={control}
-                rules={{ required: "Last name is required" }}
                 render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
                   <TextField
                     autoFocus
@@ -77,7 +118,6 @@ const Signup = () => {
               <Controller
                 name="email"
                 control={control}
-                rules={{ required: "Email is required" }}
                 render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
                   <TextField
                     autoFocus
@@ -95,7 +135,6 @@ const Signup = () => {
               <Controller
                 name="password"
                 control={control}
-                rules={{ required: "Password is required" }}
                 render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
                   <TextField
                     autoFocus
@@ -113,7 +152,6 @@ const Signup = () => {
               <Controller
                 name="phone"
                 control={control}
-                rules={{ required: "Phone is required" }}
                 render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
                   <TextField
                     autoFocus
@@ -132,7 +170,6 @@ const Signup = () => {
                 <Controller
                   name="date"
                   control={control}
-                  rules={{ required: "Date is required" }}
                   render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
                     <DatePicker value={value} onChange={onChange} />
                   )}
@@ -143,7 +180,6 @@ const Signup = () => {
               <Controller
                 name="gender"
                 control={control}
-                rules={{ required: "Gender is required" }}
                 render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
                   <TextField
                     autoFocus
@@ -166,7 +202,6 @@ const Signup = () => {
               <Controller
                 name="address"
                 control={control}
-                rules={{ required: "Address is required" }}
                 render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
                   <TextField
                     autoFocus
@@ -184,7 +219,6 @@ const Signup = () => {
               <Controller
                 name="role"
                 control={control}
-                rules={{ required: "Gender is required" }}
                 render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
                   <TextField
                     autoFocus
