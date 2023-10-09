@@ -1,22 +1,28 @@
-import './App.css';
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import Signup from "./pages/Signup";
+import Page404 from "./pages/Page404";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Signup />,
+    errorElement: <Page404 />,
+  },
+]);
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </LocalizationProvider>
   );
 }
 

@@ -1,22 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { createBrowserRouter, RouterProvider }  from 'react-router-dom';
-import Signup from './pages/Signup';
-import Page404 from './pages/Page404';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
 
-const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Signup />,
-        errorElement: <Page404 />
-    },
-]);
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <App />
   </React.StrictMode>
 );

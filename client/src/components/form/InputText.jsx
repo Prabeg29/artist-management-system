@@ -1,10 +1,7 @@
 import { Controller } from "react-hook-form";
-import { MenuItem, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 
-const FormInputSelect = ({ name, control, label, options }) => {
-    const menuItems = () => {
-       return options.map(option => (<MenuItem key={option.value} value={option.value}>{option.label}</MenuItem>))
-    };
+const InputText = ({ name, control, label }) => {
   return (
     <Controller
       name={name}
@@ -14,17 +11,15 @@ const FormInputSelect = ({ name, control, label, options }) => {
           autoFocus
           fullWidth
           label={label}
-          select
+          type={name === 'password' ? name : ''}
           value={value}
           onChange={onChange}
           error={Boolean(error)}
           helperText={error?.message}
-        >
-          {menuItems()}
-        </TextField>
+        />
       )}
     />
   );
 };
 
-export default FormInputSelect;
+export default InputText;

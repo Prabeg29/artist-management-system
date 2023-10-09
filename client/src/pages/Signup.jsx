@@ -1,38 +1,47 @@
-import { Link } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
-import { Box, Button, Container, CssBaseline, Grid, Typography } from "@mui/material";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useState } from "react";
+import { useMutation } from 'react-query';
+import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm, Controller } from "react-hook-form";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { Alert, Box, Button, Container, CssBaseline, Grid, Typography } from "@mui/material";
 
-import FormInputText from "../components/FormInputText";
-import FormInputSelect from "../components/FormInputSelect";
+import { signUp } from '../api/authService';
+import InputText from "../components/form/InputText";
+import InputSelect from "../components/form/InputSelect";
 import { RegistrationSchema } from "../schemas/RegistrationSchema";
-
-const initialUserInfo = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  phone: "",
-  dob: "",
-  gender: "female",
-  address: "",
-  role: "artist",
-};
 
 const Signup = () => {
   const { control, handleSubmit } = useForm({
-    defaultValues: initialUserInfo,
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
+      phone: "",
+      dob: "",
+      gender: "female",
+      address: "",
+      role: "artist",
+    },
     resolver: yupResolver(RegistrationSchema),
   });
 
-  const onSubmit = (data) => console.log(data);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
+
+  const { mutate } = useMutation(
+    data => signUp(data),
+    {
+        onSuccess: () => navigate('/signin'),
+        onError: ({ response: { data } }) => setErrorMessage(data.message),
+    }
+  ); 
 
   const textFields = [
-    { name: "firstName", label: "First Name" },
-    { name: "lastName", label: "Last Name" },
+    { name: "first_name", label: "First Name" },
+    { name: "last_name", label: "Last Name" },
     { name: "email", label: "Email" },
     { name: "password", label: "Password" },
     { name: "phone", label: "Phone" },
@@ -70,30 +79,42 @@ const Signup = () => {
           alignItems: "center",
         }}
       >
+        
         <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
+        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+        <Box component="form" onSubmit={handleSubmit(mutate)} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             {textFields.map((textField) => (
               <Grid key={textField.name} item xs={12} sm={6}>
-                <FormInputText name={textField.name} control={control} label={textField.label} />
+                <InputText name={textField.name} control={control} label={textField.label} />
               </Grid>
             ))}
-            {/* <Grid item xs={12} sm={6}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Controller
-                  name="date"
-                  control={control}
-                  render={({ field: { onChange, value }, fieldState: { error }, formState }) => (
-                    <DatePicker value={value} onChange={onChange} />
-                  )}
-                />
-              </LocalizationProvider>
-            </Grid> */}
+            <Grid item xs={12} sm={6}>
+              <Controller
+                control={control}
+                name="dob"
+                defaultValue={null}
+                render={({ field: {value, onChange}, fieldState: { error } }) => (
+                    <DatePicker 
+                        label="Date of Birth"
+                        disableFuture
+                        value={value} 
+                        onChange={onChange}
+                        slotProps={{ 
+                            textField: { 
+                                error: !!error,
+                                helperText: error?.message
+                            }
+                        }}
+                    />
+                )}
+              />
+            </Grid>
             {selectFields.map((selectField) => (
               <Grid key={selectField.name} item xs={12} sm={6}>
-                <FormInputSelect
+                <InputSelect
                   name={selectField.name}
                   control={control}
                   label={selectField.label}
@@ -107,7 +128,7 @@ const Signup = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link to={`/login`} variant="body2">
+              <Link to={`/signin`} variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
