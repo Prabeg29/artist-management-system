@@ -3,14 +3,14 @@ export interface User {
   first_name: string;
   last_name: string;
   email: string;
-  password: string;
+  password?: string;
   phone: string;
   dob: Date;
   gender: string;
   address: string;
   role: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 export type UserInput = Omit<User, 'id' | 'created_at' | 'updated_at'>; 

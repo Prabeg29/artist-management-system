@@ -14,7 +14,8 @@
     "make:seed": "yarn knex seed:make --knexfile src/knexfile.ts",
     "seed": "yarn knex seed:run --knexfile src/knexfile.ts",
     "lint": "eslint src/",
-    "lint:fix": "eslint --fix src/"
+    "lint:fix": "eslint --fix src/",
+    "test": "jest --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",
