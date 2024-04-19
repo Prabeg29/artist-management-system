@@ -20,6 +20,12 @@ export class SongService {
   }
 
   public async create(artistId: number, songData: SongInput): Promise<Song> {
+    const song = await this.songRepository.fetchOneByTitle(artistId, songData.title);
+
+    if (song) {
+      throw new HttpException('Song already exists for the artist', StatusCodes.NOT_FOUND);
+    }
+
     const [songId]= await this.songRepository.create(artistId, songData);
 
     return await this.fetchOneById(songId);
@@ -36,8 +42,16 @@ export class SongService {
     return await this.songRepository.fetchAllPaginated(artistId, currentPageNumber, perPageNumber);
   }
 
-  public async update(id: number, songData: SongInput): Promise<Song> {
-    const song: Song =  await this.fetchOneById(id);
+  public async update(artistId: number, songId: number, songData: SongInput): Promise<Song> {
+    const existingSong = await this.songRepository.fetchOneByTitle(artistId, songData.title);
+    const song = await this.songRepository.fetchOneById(songId);
+
+    if (
+      existingSong &&
+      (existingSong.id !== song.id)
+    ) {
+      throw new HttpException('Song with title already exists for the artist', StatusCodes.NOT_FOUND);
+    }
 
     await this.songRepository.update(song.id, songData);
     

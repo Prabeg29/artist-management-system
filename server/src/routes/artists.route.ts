@@ -23,41 +23,41 @@ const artistSongController = new ArtistSongController(new SongService(new KnexSo
 
 router.get('/', authenticate, isSuperAdminOrArtistManager, tryCatchWrapper(artistController.index));
 router.post(
-  '/', 
-  authenticate, 
-  isSuperAdminOrArtistManager, 
-  validate(CreateArtistSchema), 
+  '/',
+  authenticate,
+  isSuperAdminOrArtistManager,
+  validate(CreateArtistSchema),
   tryCatchWrapper(artistController.store)
 );
 router.get('/:id', authenticate, isSuperAdminOrArtistManager, tryCatchWrapper(artistController.show));
 router.patch(
-  '/:id', 
-  authenticate, 
-  isSuperAdminOrArtistManager, 
-  validate(UpdateArtistSchema), 
+  '/:id',
+  authenticate,
+  isSuperAdminOrArtistManager,
+  validate(UpdateArtistSchema),
   tryCatchWrapper(artistController.update)
 );
 router.delete('/:id', authenticate, isSuperAdminOrArtistManager, tryCatchWrapper(artistController.destroy));
 
 router.get('/:artistId/songs', authenticate, tryCatchWrapper(artistSongController.index));
 router.post(
-  '/:artistId/songs', 
-  authenticate, 
-  isSuperAdminOrArtist, 
-  validate(CreateSongSchema), 
+  '/:artistId/songs',
+  authenticate,
+  isSuperAdminOrArtist,
+  validate(CreateSongSchema),
   tryCatchWrapper(artistSongController.store)
 );
 router.patch(
-  '/:artistId/songs/:songId', 
-  authenticate, 
-  isSuperAdminOrArtist, 
-  validate(UpdateSongSchema), 
+  '/:artistId/songs/:songId',
+  authenticate,
+  isSuperAdminOrArtist,
+  validate(UpdateSongSchema),
   tryCatchWrapper(artistSongController.update)
 );
 router.delete(
-  '/:artistId/songs/:songId', 
-  authenticate, 
-  isSuperAdminOrArtist, 
+  '/:artistId/songs/:songId',
+  authenticate,
+  isSuperAdminOrArtist,
   tryCatchWrapper(artistSongController.destroy)
 );
 

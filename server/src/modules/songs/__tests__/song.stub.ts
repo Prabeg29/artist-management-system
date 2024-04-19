@@ -1,4 +1,4 @@
-import { Song } from '../song.type';
+import { Song, SongInput } from '../song.type';
 
 const songStub = (): Song[] => {
   return [
@@ -14,4 +14,13 @@ const songStub = (): Song[] => {
   ];
 };
 
-export { songStub };
+const songInputStub = (): SongInput => {
+  return {
+    artist_id : 1,
+    title     : 'Voodoo Child',
+    album_name: 'Electric Ladyland',
+    genre     : 'Gypsy Rock',
+  };
+};
+
+export { songStub, songInputStub };
