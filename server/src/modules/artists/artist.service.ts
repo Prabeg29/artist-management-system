@@ -5,13 +5,13 @@ import { PaginationInfo } from '../../database';
 import { pagination } from '@enums/pagination.enum';
 import { HttpException } from '@exceptions/http.exception';
 import { KnexArtistRepository } from './knex-artist.repository';
-import {  Artist, ArtistInput } from '@modules/artists/artist.type';
+import { Artist, ArtistInput } from '@modules/artists/artist.type';
 
 export class ArtistService {
   constructor(protected readonly artistRepository: KnexArtistRepository) { }
 
   public async fetchOneById(id: number): Promise<Artist> {
-    const artist: Artist =  await this.artistRepository.fetchOneById(id);
+    const artist: Artist = await this.artistRepository.fetchOneById(id);
 
     if (!artist) {
       throw new HttpException('Artist with the given id does not exists', StatusCodes.NOT_FOUND);
@@ -38,33 +38,33 @@ export class ArtistService {
   }
 
   public async fetchAllPaginated(
-    currentPage: string, 
+    currentPage: string,
     perPage: string
   ): Promise<{ data: Artist[]; paginationInfo: PaginationInfo; }> {
-    const currentPageNumber = Number(currentPage)|| pagination.DEFAULT_PAGE;
+    const currentPageNumber = Number(currentPage) || pagination.DEFAULT_PAGE;
     const perPageNumber = Number(perPage) || pagination.DEFAULT_RECORDS_PER_PAGE;
 
     return await this.artistRepository.fetchAllPaginated(currentPageNumber, perPageNumber);
   }
 
   public async update(id: number, artistData: ArtistInput): Promise<Artist> {
-    const artist: Artist =  await this.fetchOneById(id);
+    const artist: Artist = await this.fetchOneById(id);
 
     if (artistData.email) {
       const isExistingArtist = await this.artistRepository.fetchOneByEmail(artistData.email);
 
-      if (isExistingArtist) {
-        throw new HttpException('User with the provided email already exists',StatusCodes.BAD_REQUEST);
+      if (artist.id !== isExistingArtist.id) {
+        throw new HttpException('User with the provided email already exists', StatusCodes.BAD_REQUEST);
       }
     }
 
     await this.artistRepository.update(artist.id, artistData);
-    
+
     return await this.fetchOneById(artist.artist_id);
   }
 
   public async delete(id: number): Promise<void> {
-    const artist: Artist =  await this.fetchOneById(id);
+    const artist: Artist = await this.fetchOneById(id);
 
     const result = await this.artistRepository.delete(artist.id);
 
