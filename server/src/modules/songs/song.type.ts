@@ -8,7 +8,7 @@ export interface Song {
   updated_at: Date;
 }
 
-export type SongInput = Omit<Song, 'id' | 'artist_id' | 'created_at' | 'updated_at'>; 
+export type SongInput = Omit<Song, 'id'  | 'created_at' | 'updated_at'>; 
 
 export interface SongDto {
   id: number;

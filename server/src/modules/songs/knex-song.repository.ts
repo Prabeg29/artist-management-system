@@ -15,6 +15,13 @@ export class KnexSongRepository {
     return await this.knex(dbTables.SONGS).where('id', songId).first();
   }
 
+  async fetchOneByTitle(artistId: number, songTitle: string): Promise<Song | undefined> {
+    return await this.knex(dbTables.SONGS)
+      .where('artist_id', artistId)
+      .where('title', songTitle)
+      .first();
+  }
+
   public async fetchAllPaginated(
     artistId: number, currentPage: number, perPage: number
   ): Promise<{ data: Song[]; paginationInfo: PaginationInfo; }> {

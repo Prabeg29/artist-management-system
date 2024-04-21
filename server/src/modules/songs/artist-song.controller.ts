@@ -35,7 +35,7 @@ export class ArtistSongController {
   };
 
   public update = async (req: Request, res: Response): Promise<void> => { 
-    const song = await this.songService.update(parseInt(req.params.songId), req.body as SongInput);
+    const song = await this.songService.update(parseInt(req.params.artistId), parseInt(req.params.songId), req.body as SongInput);
 
     res.status(StatusCodes.OK).json({
       message: 'Song updated successfully',
@@ -44,7 +44,7 @@ export class ArtistSongController {
   };
 
   public destroy = async (req: Request, res: Response): Promise<void> => { 
-    const song = await this.songService.delete(parseInt(req.params.songId));
+    await this.songService.delete(parseInt(req.params.songId));
 
     res.status(StatusCodes.OK).json({
       message: 'Song deleted successfully',
