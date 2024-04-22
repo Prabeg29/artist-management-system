@@ -28,9 +28,14 @@ export class UserService {
 
   public async signin(userData: UserInput): Promise<User & { token: string; }> {
     const isExistingUser = await this.userRepository.fetchOneByEmail(userData.email);
-    const isPasswordValid = await bcrypt.compare(userData.password, isExistingUser.password || '');
 
-    if (!isExistingUser || !isPasswordValid) {
+    if (!isExistingUser) {
+      throw new HttpException('Invalid credentials', StatusCodes.UNAUTHORIZED);
+    }
+
+    const isPasswordValid = await bcrypt.compare(userData.password, isExistingUser.password);
+
+    if (!isPasswordValid) {
       throw new HttpException('Invalid credentials', StatusCodes.UNAUTHORIZED);
     }
 
@@ -69,7 +74,7 @@ export class UserService {
     if (userData.email) {
       const isExistingUser = await this.userRepository.fetchOneByEmail(userData.email);
 
-      if (isExistingUser) {
+      if (isExistingUser.id !== user.id) {
         throw new HttpException('User with the provided email already exists',StatusCodes.BAD_REQUEST);
       }
     }

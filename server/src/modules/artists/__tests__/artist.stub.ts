@@ -1,3 +1,4 @@
+import { roles } from '@enums/roles.enum';
 import { Artist, ArtistInput } from '../artist.type';
 
 const artistStub = (): Artist[] => {
@@ -10,7 +11,7 @@ const artistStub = (): Artist[] => {
       phone                    : '9800000000',
       dob                      : new Date('2022-12-09 00:00:00'),
       gender                   : 'male',
-      role                     : 'artist',
+      role                     : roles.ARTIST,
       address                  : 'Seattle, US',
       artist_id                : 1,
       first_release_year       : 1967,
