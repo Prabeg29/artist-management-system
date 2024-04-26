@@ -1,3 +1,5 @@
+import { roles } from '@enums/roles.enum';
+
 export interface User {
   id: number;
   first_name: string;
@@ -8,7 +10,7 @@ export interface User {
   dob: Date;
   gender: string;
   address: string;
-  role: string;
+  role: roles.ARTIST | roles.ARTIST_MANAGER | roles.SUPER_ADMIN;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -24,7 +26,7 @@ export interface UserDto {
     dob: string;
     gender: string;
     address: string;
-    role: string;
+    role: roles.ARTIST | roles.ARTIST_MANAGER | roles.SUPER_ADMIN;
     created_at: string;
     updated_at: string;
   },
