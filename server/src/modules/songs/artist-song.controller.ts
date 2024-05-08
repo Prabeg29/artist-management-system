@@ -18,7 +18,7 @@ export class ArtistSongController {
 
     res.status(StatusCodes.OK).json({
       message: 'Songs fetched successfully',
-      users  : SongMapper.toDtoCollection(songs),
+      songs  : SongMapper.toDtoCollection(songs),
       meta   : {
         paginationInfo: paginationInfo
       },

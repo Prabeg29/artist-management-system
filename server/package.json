@@ -31,10 +31,11 @@
     "http-status-codes": "^2.2.0",
     "jsonwebtoken": "^9.0.1",
     "knex": "^2.4.2",
-    "mysql2": "^3.2.0"
+    "mysql2": "^3.2.0",
+    "pino": "^9.0.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7.6.0",
+    "@faker-js/faker": "^8.4.1",
     "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.12",
@@ -47,7 +48,6 @@
     "eslint": "^8.34.0",
     "jest": "^29.7.0",
     "nodemon": "^2.0.20",
-    "pino": "^8.6.1",
     "pino-pretty": "^9.1.1",
     "rimraf": "^4.4.0",
     "ts-jest": "^29.1.2",
