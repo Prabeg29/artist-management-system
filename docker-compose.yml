@@ -27,8 +27,8 @@ services:
   
   api:
     build:
-      context: ./server/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/dockerfile.server
     image: api_image
     container_name: artist-management-system_api
     depends_on:
@@ -44,8 +44,8 @@ services:
   
   client:
     build:
-      context: ./client/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/dockerfile.client
     image: client_image
     container_name: artist-management-system_client
     depends_on:
@@ -67,7 +67,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./nginx:/etc/nginx/conf.d/
+      - ./docker/nginx:/etc/nginx/conf.d/
     networks:
       artist-management-system:
         ipv4_address: 10.0.0.100
@@ -77,6 +77,6 @@ services:
     ports:
       - 53:53/udp
     volumes:
-      - ./dnsmasq.conf:/etc/dnsmasq.conf
+      - ./docker/dnsmasq.conf:/etc/dnsmasq.conf
     networks:
       - artist-management-system
