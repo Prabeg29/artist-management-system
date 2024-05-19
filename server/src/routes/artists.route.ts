@@ -18,7 +18,7 @@ import { UpdateArtistSchema } from '@modules/artists/validations/update-artist.s
 import { isSuperAdminOrArtistManager } from '@middlewares/isSuperAdminOrArtistManager';
 
 const router: Router = Router();
-const artistController = new ArtistController(new ArtistService(new KnexArtistRepository(knex)));
+const artistController = new ArtistController(new ArtistService(new KnexArtistRepository()));
 const artistSongController = new ArtistSongController(new SongService(new KnexSongRepository(knex)));
 
 router.get('/', authenticate, isSuperAdminOrArtistManager, tryCatchWrapper(artistController.index));

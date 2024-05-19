@@ -1,13 +1,9 @@
-/* eslint-disable no-prototype-builtins */
-import { Knex } from 'knex';
-
 import logger from '@utils/logger';
 import { roles } from '@enums/roles.enum';
 import { dbTables } from '@enums/db-tables.enum';
 import { paginate, PaginationInfo } from '../../database';
 import { Artist, ArtistInput } from '@modules/artists/artist.type';
 import { KnexUserRepository } from '@modules/user/knex-user.repository';
-import { UserInput } from '@modules/user/user.type';
 
 export class KnexArtistRepository extends KnexUserRepository {
   protected selectParams: Array<string> = [
@@ -26,10 +22,6 @@ export class KnexArtistRepository extends KnexUserRepository {
     `${dbTables.ARTISTS}.created_at`,
     `${dbTables.ARTISTS}.updated_at`,
   ];
-
-  constructor(protected readonly knex: Knex) {
-    super(knex);
-  }
 
   public async fetchAllPaginated(
     currentPage: number, perPage: number

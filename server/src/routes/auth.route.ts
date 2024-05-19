@@ -1,6 +1,5 @@
 import { Router } from 'express';
 
-import knex from '../database';
 import { validate } from '@middlewares/validator';
 import { UserService } from '@modules/user/user.service';
 import { tryCatchWrapper } from '@utils/try-catch-wrapper';
@@ -13,8 +12,8 @@ import { createUserSchema } from '@modules/user/validations/create-user.schema';
 
 const router: Router = Router();
 const authController = new AuthController(
-  new UserService(new KnexUserRepository(knex)),
-  new ArtistService(new KnexArtistRepository(knex)),
+  new UserService(new KnexUserRepository()),
+  new ArtistService(new KnexArtistRepository()),
 );
 
 router.post('/signup', validate(createUserSchema), tryCatchWrapper(authController.signup));
