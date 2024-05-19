@@ -7,6 +7,8 @@ import compression from 'compression';
 import config from '@config';
 import routes from '@routes';
 import logger from '@utils/logger';
+import { connectAllDb } from '@utils/connectionManager';
+import { connectionResolver } from '@middlewares/connectionResolver';
 import { genericErrorHandler, routeNotFound } from '@middlewares/errorHandler.middleware';
 
 export class App {
@@ -30,6 +32,8 @@ export class App {
     this.app.use(cors());
     this.app.use(compression());
     this.app.use(bodyParser.json());
+    connectAllDb();
+    this.app.use(connectionResolver);
   }
 
   private loadRoutes(): void {
