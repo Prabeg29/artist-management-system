@@ -1,25 +1,24 @@
 import { Router } from 'express';
 
-import knex from '../database';
-import { validate } from '@middlewares/validator';
-import { authenticate } from '@middlewares/authenticate';
-import { SongService } from '@modules/songs/song.service';
-import { tryCatchWrapper } from '@utils/try-catch-wrapper';
-import { ArtistService } from '@modules/artists/artist.service';
-import { ArtistController } from '@modules/artists/artist.controller';
-import { KnexSongRepository } from '@modules/songs/knex-song.repository';
-import { isSuperAdminOrArtist } from '@middlewares/isSuperAdminOrArtist';
-import { ArtistSongController } from '@modules/songs/artist-song.controller';
-import { KnexArtistRepository } from '@modules/artists/knex-artist.repository';
-import { CreateSongSchema } from '@modules/songs/validations/create-song.schema';
-import { UpdateSongSchema } from '@modules/songs/validations/update-song.schema';
-import { CreateArtistSchema } from '@modules/artists/validations/create-artist.schema';
-import { UpdateArtistSchema } from '@modules/artists/validations/update-artist.schema';
-import { isSuperAdminOrArtistManager } from '@middlewares/isSuperAdminOrArtistManager';
+import { validate } from '../middlewares/validator';
+import { authenticate } from '../middlewares/authenticate';
+import { SongService } from '../modules/songs/song.service';
+import { tryCatchWrapper } from '../utils/try-catch-wrapper';
+import { ArtistService } from '../modules/artists/artist.service';
+import { ArtistController } from '../modules/artists/artist.controller';
+import { KnexSongRepository } from '../modules/songs/knex-song.repository';
+import { isSuperAdminOrArtist } from '../middlewares/isSuperAdminOrArtist';
+import { ArtistSongController } from '../modules/songs/artist-song.controller';
+import { KnexArtistRepository } from '../modules/artists/knex-artist.repository';
+import { CreateSongSchema } from '../modules/songs/validations/create-song.schema';
+import { UpdateSongSchema } from '../modules/songs/validations/update-song.schema';
+import { CreateArtistSchema } from '../modules/artists/validations/create-artist.schema';
+import { UpdateArtistSchema } from '../modules/artists/validations/update-artist.schema';
+import { isSuperAdminOrArtistManager } from '../middlewares/isSuperAdminOrArtistManager';
 
 const router: Router = Router();
 const artistController = new ArtistController(new ArtistService(new KnexArtistRepository()));
-const artistSongController = new ArtistSongController(new SongService(new KnexSongRepository(knex)));
+const artistSongController = new ArtistSongController(new SongService(new KnexSongRepository()));
 
 router.get('/', authenticate, isSuperAdminOrArtistManager, tryCatchWrapper(artistController.index));
 router.post(

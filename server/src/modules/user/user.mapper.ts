@@ -1,4 +1,4 @@
-import config from '@config';
+import config from '../../config';
 import { User, UserDto, UserDtoCollection } from './user.type';
 
 export class UserMapper {

@@ -1,4 +1,4 @@
-import { PaginationInfo } from '../../database';
+import { PaginationInfo } from '../../utils/db.util';
 import { CreateTenantDto, Tenant } from './tenant.type';
 
 export interface TenantRepositoryInterface{

@@ -1,4 +1,4 @@
-import config from '@config';
+import config from '../../config';
 import { Tenant, TenantResponseDto } from './tenant.type';
 
 export class TenantMapper {

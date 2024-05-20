@@ -2,7 +2,7 @@ import { AsyncLocalStorage } from 'async_hooks';
 
 import { NextFunction, Request, Response } from 'express';
 
-import { getConnection } from '@utils/connectionManager';
+import { getConnection } from '../utils/db.util';
 
 export const asyncLocalStorage = new AsyncLocalStorage();
 

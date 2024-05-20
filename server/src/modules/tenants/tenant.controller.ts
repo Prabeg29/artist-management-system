@@ -5,7 +5,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { TenantMapper } from './tenant.mapper';
 import { TenantService } from './tenant.service';
 import { CreateTenantDto, Tenant } from './tenant.type';
-import { makeDatabaseSlug, makeDomain } from '@utils/tenant.util';
+import { makeDatabaseSlug, makeDomain } from '../../utils/tenant.util';
 
 export class TenantController {
   constructor(protected readonly tenantService: TenantService) {}

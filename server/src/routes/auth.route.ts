@@ -1,14 +1,14 @@
 import { Router } from 'express';
 
-import { validate } from '@middlewares/validator';
-import { UserService } from '@modules/user/user.service';
-import { tryCatchWrapper } from '@utils/try-catch-wrapper';
-import { AuthController } from '@modules/auth/auth.controller';
-import { ArtistService } from '@modules/artists/artist.service';
-import { signinSchema } from '@modules/auth/validations/signin.schema';
-import { KnexUserRepository } from '@modules/user/knex-user.repository';
-import { KnexArtistRepository } from '@modules/artists/knex-artist.repository';
-import { createUserSchema } from '@modules/user/validations/create-user.schema';
+import { validate } from '../middlewares/validator';
+import { UserService } from '../modules/user/user.service';
+import { tryCatchWrapper } from '../utils/try-catch-wrapper';
+import { AuthController } from '../modules/auth/auth.controller';
+import { ArtistService } from '../modules/artists/artist.service';
+import { signinSchema } from '../modules/auth/validations/signin.schema';
+import { KnexUserRepository } from '../modules/user/knex-user.repository';
+import { KnexArtistRepository } from '../modules/artists/knex-artist.repository';
+import { createUserSchema } from '../modules/user/validations/create-user.schema';
 
 const router: Router = Router();
 const authController = new AuthController(

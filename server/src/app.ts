@@ -4,12 +4,12 @@ import { Server } from 'http';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 
-import config from '@config';
-import routes from '@routes';
-import logger from '@utils/logger.util';
-import { connectAllDb } from '@utils/connectionManager';
-import { connectionResolver } from '@middlewares/connectionResolver';
-import { genericErrorHandler, routeNotFound } from '@middlewares/errorHandler.middleware';
+import config from './config';
+import routes from './routes';
+import logger from './utils/logger.util';
+import { connectAllDb } from './utils/db.util';
+import { connectionResolver } from './middlewares/connectionResolver';
+import { genericErrorHandler, routeNotFound } from './middlewares/errorHandler.middleware';
 
 export class App {
   public app: express.Application;

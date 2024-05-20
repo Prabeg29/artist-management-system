@@ -1,6 +1,6 @@
 import { Knex } from 'knex';
 
-import { dbTables } from '@enums/db-tables.enum';
+import { dbTables } from '../../../enums/db-tables.enum';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable(dbTables.TENANTS, function (table) {

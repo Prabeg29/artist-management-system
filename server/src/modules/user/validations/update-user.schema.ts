@@ -1,5 +1,5 @@
-import { roles } from '@enums/roles.enum';
-import { gender } from '@enums/gender.enum';
+import { roles } from '../../../enums/roles.enum';
+import { gender } from '../../../enums/gender.enum';
 
 export const updateUserSchema = {
   type         : 'object',

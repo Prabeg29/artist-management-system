@@ -1,4 +1,4 @@
-import { User } from '@modules/user/user.type';
+import { User } from '../user/user.type';
 
 export interface Artist extends User {
   artist_id: number,

@@ -1,8 +1,10 @@
 import path from 'path';
 
-import config from '@config';
+import knex from 'knex';
 
-export default {
+import config from './config';
+
+const defaultConfig =  {
   client    : config.db.client,
   connection: {
     host    : config.db.host,
@@ -21,3 +23,7 @@ export default {
     extension: 'ts'
   },
 };
+
+const defaultConn = knex(defaultConfig);
+
+export { defaultConfig, defaultConn };

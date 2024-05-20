@@ -1,7 +1,7 @@
-import { dbTables } from '@enums/db-tables.enum';
+import { User, UserInput } from './user.type';
 import { BaseRepository } from '../base.repository';
-import { paginate, PaginationInfo } from '../../database';
-import { User, UserInput } from '@modules/user/user.type';
+import { dbTables } from '../../enums/db-tables.enum';
+import { paginate, PaginationInfo } from '../../utils/db.util';
 import { UserRepositoryInterface } from './user.irepository';
 
 export class KnexUserRepository extends BaseRepository implements UserRepositoryInterface{

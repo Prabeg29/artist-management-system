@@ -1,8 +1,8 @@
 import { Knex } from 'knex';
 
-import { dbTables } from '@enums/db-tables.enum';
-import { roles } from '@enums/roles.enum';
-import { gender } from '@enums/gender.enum';
+import { roles } from '../../enums/roles.enum';
+import { gender } from '../../enums/gender.enum';
+import { dbTables } from '../../enums/db-tables.enum';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable(dbTables.USERS, function (table) {

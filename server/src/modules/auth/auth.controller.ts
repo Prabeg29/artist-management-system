@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import { roles } from '@enums/roles.enum';
-import { UserMapper } from '@modules/user/user.mapper';
-import { UserService } from '@modules/user/user.service';
-import { User, UserInput } from '@modules/user/user.type';
-import { ArtistService } from '@modules/artists/artist.service';
-import { Artist, ArtistInput } from '@modules/artists/artist.type';
+import { roles } from '../../enums/roles.enum';
+import { UserMapper } from '../user/user.mapper';
+import { UserService } from '../user/user.service';
+import { User, UserInput } from '../user/user.type';
+import { ArtistInput } from '../artists/artist.type';
+import { ArtistService } from '../artists/artist.service';
 
 export class AuthController {
   constructor(
@@ -17,7 +17,7 @@ export class AuthController {
   public signup = async (req: Request, res: Response): Promise<void> => {
     const { role }: { role: string; } = req.body;
 
-    const user: User | Artist = role === roles.ARTIST ? 
+    const user: User & { token?: string; } = role === roles.ARTIST ? 
       await this.artistService.create(req.body as ArtistInput) :
       await this.userService.create(req.body as UserInput);
 

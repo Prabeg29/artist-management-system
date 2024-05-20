@@ -1,9 +1,9 @@
-import logger from '@utils/logger.util';
-import { roles } from '@enums/roles.enum';
-import { dbTables } from '@enums/db-tables.enum';
-import { paginate, PaginationInfo } from '../../database';
-import { Artist, ArtistInput } from '@modules/artists/artist.type';
-import { KnexUserRepository } from '@modules/user/knex-user.repository';
+import logger from '../../utils/logger.util';
+import { roles } from '../../enums/roles.enum';
+import { Artist, ArtistInput } from './artist.type';
+import { dbTables } from '../../enums/db-tables.enum';
+import { paginate, PaginationInfo } from '../../utils/db.util';
+import { KnexUserRepository } from '../user/knex-user.repository';
 
 export class KnexArtistRepository extends KnexUserRepository {
   protected selectParams: Array<string> = [

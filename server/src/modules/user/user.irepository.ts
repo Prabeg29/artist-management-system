@@ -1,5 +1,5 @@
-import { PaginationInfo } from '../../database';
-import { User, UserInput } from '@modules/user/user.type';
+import { User, UserInput } from './user.type';
+import { PaginationInfo } from '../../utils/db.util';
 
 export interface UserRepositoryInterface{
   fetchOneByEmail(email: string): Promise<User | undefined>;

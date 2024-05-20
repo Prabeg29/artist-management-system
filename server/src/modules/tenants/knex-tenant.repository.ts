@@ -1,7 +1,7 @@
-import { dbTables } from '@enums/db-tables.enum';
 import { BaseRepository } from '../base.repository';
+import { dbTables } from '../../enums/db-tables.enum';
 import { CreateTenantDto, Tenant } from './tenant.type';
-import { PaginationInfo, paginate } from '../../database';
+import { PaginationInfo, paginate } from '../../utils/db.util';
 import { TenantRepositoryInterface } from './tenant.irepository';
 
 export class KnexTenantRepository extends BaseRepository implements TenantRepositoryInterface {

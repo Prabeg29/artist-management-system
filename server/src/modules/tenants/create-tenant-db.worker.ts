@@ -1,15 +1,15 @@
 import { Job, Worker } from 'bullmq';
 
-import knexInstance from '../../database';
+import { defaultConn } from '../../knexfile';
+import logger from '../../utils/logger.util';
 import { CreateTenantDto } from './tenant.type';
-import { connectAllDb, getConnection } from '@utils/connectionManager';
-import logger from '@utils/logger.util';
+import { connectAllDb, getConnection } from '../../utils/db.util';
 
 new Worker('create-tenant-db', async (job: Job<CreateTenantDto>) => {
   try {
     logger.info(`Creating database ${job.data.database} for tenant ${job.data.name}`);
 
-    await knexInstance.raw(`CREATE DATABASE ${job.data.database};`);
+    await defaultConn.raw(`CREATE DATABASE ${job.data.database};`);
 
     logger.info(`Database ${job.data.database} created for tenant ${job.data.name}`);
   

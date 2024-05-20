@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
 
-import { PaginationInfo } from '../../database';
-import { pagination } from '@enums/pagination.enum';
-import { HttpException } from '@exceptions/http.exception';
+import { Artist, ArtistInput } from './artist.type';
+import { PaginationInfo } from '../../utils/db.util';
+import { pagination } from '../../enums/pagination.enum';
+import { HttpException } from '../../exceptions/http.exception';
 import { KnexArtistRepository } from './knex-artist.repository';
-import { Artist, ArtistInput } from '@modules/artists/artist.type';
 
 export class ArtistService {
   constructor(protected readonly artistRepository: KnexArtistRepository) { }

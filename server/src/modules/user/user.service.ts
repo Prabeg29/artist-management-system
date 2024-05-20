@@ -2,12 +2,12 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 
-import config from '@config';
-import { PaginationInfo } from '../../database';
-import { pagination } from '@enums/pagination.enum';
-import { User, UserInput } from '@modules/user/user.type';
-import { HttpException } from '@exceptions/http.exception';
-import { UserRepositoryInterface } from '@modules/user/user.irepository';
+import config from '../../config';
+import { User, UserInput } from './user.type';
+import { PaginationInfo } from '../../utils/db.util';
+import { pagination } from '../../enums/pagination.enum';
+import { UserRepositoryInterface } from './user.irepository';
+import { HttpException } from '../../exceptions/http.exception';
 
 export class UserService {
   constructor(protected readonly userRepository: UserRepositoryInterface) { }

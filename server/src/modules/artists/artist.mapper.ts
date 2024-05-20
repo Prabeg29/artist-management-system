@@ -1,5 +1,5 @@
-import config from '@config';
-import { roles } from '@enums/roles.enum';
+import config from '../../config';
+import { roles } from '../../enums/roles.enum';
 import { Artist, ArtistDto, ArtistDtoCollection } from './artist.type';
 
 export class ArtistMapper {

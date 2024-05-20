@@ -1,10 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 
-import config from '@config';
-import { PaginationInfo } from '../../database';
-import { pagination } from '@enums/pagination.enum';
+import config from '../../config';
+import { PaginationInfo } from '../../utils/db.util';
 import { CreateTenantDto, Tenant } from './tenant.type';
-import { HttpException } from '@exceptions/http.exception';
+import { pagination } from '../../enums/pagination.enum';
+import { HttpException } from '../../exceptions/http.exception';
 import { TenantRepositoryInterface } from './tenant.irepository';
 
 export class TenantService {

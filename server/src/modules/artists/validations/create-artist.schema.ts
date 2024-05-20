@@ -1,4 +1,4 @@
-import { gender } from '@enums/gender.enum';
+import { gender } from '../../../enums/gender.enum';
 
 export const CreateArtistSchema = {
   type      : 'object',

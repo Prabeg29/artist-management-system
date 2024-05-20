@@ -1,7 +1,7 @@
 import { Knex } from 'knex';
 
-import { genres } from '@enums/genres.enum';
-import { dbTables } from '@enums/db-tables.enum';
+import { genres } from '../../enums/genres.enum';
+import { dbTables } from '../../enums/db-tables.enum';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable(dbTables.SONGS, function (table) {

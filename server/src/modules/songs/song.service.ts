@@ -1,10 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 
 import { Song, SongInput } from './song.type';
-import { PaginationInfo } from '../../database';
-import { pagination } from '@enums/pagination.enum';
+import { PaginationInfo } from '../../utils/db.util';
+import { pagination } from '../../enums/pagination.enum';
 import { KnexSongRepository } from './knex-song.repository';
-import { HttpException } from '@exceptions/http.exception';
+import { HttpException } from '../../exceptions/http.exception';
 
 export class SongService {
   constructor(protected readonly songRepository: KnexSongRepository) {}

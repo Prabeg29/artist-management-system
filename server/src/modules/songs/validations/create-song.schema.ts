@@ -1,4 +1,4 @@
-import { genres } from '@enums/genres.enum';
+import { genres } from '../../../enums/genres.enum';
 
 export const CreateSongSchema = {
   type      : 'object',
