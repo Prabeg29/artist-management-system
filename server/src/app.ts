@@ -6,7 +6,7 @@ import compression from 'compression';
 
 import config from '@config';
 import routes from '@routes';
-import logger from '@utils/logger';
+import logger from '@utils/logger.util';
 import { connectAllDb } from '@utils/connectionManager';
 import { connectionResolver } from '@middlewares/connectionResolver';
 import { genericErrorHandler, routeNotFound } from '@middlewares/errorHandler.middleware';

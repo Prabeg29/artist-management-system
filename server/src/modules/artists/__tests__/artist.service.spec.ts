@@ -5,10 +5,10 @@ import { HttpException } from '@exceptions/http.exception';
 import { artistStub, artistInputStub } from './artist.stub';
 import { userStub } from '@modules/user/__tests__/user.stub';
 import { KnexArtistRepository } from '../knex-artist.repository';
-import knexInstance, { PaginationInfo } from '../../../database';
+import { PaginationInfo } from '../../../database';
 
 describe('ArtistService', () => {
-  const knexArtistRepository: KnexArtistRepository = new KnexArtistRepository(knexInstance);
+  const knexArtistRepository: KnexArtistRepository = new KnexArtistRepository();
   const artistService: ArtistService = new ArtistService(knexArtistRepository);
 
   let mockFetchAllPaginated: jest.SpyInstance<

@@ -1,6 +1,6 @@
 import knex, { Knex } from 'knex';
 
-import logger from '@utils/logger';
+import logger from '@utils/logger.util';
 import knexConfig from '../knexfile';
 
 const knexInstance = knex(knexConfig);

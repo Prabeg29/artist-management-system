@@ -1,4 +1,4 @@
-import logger from '@utils/logger';
+import logger from '@utils/logger.util';
 import { roles } from '@enums/roles.enum';
 import { dbTables } from '@enums/db-tables.enum';
 import { paginate, PaginationInfo } from '../../database';

@@ -1,5 +1,5 @@
 import { dbTables } from '@enums/db-tables.enum';
-import { BaseRepository } from '@utils/base.repository';
+import { BaseRepository } from '../base.repository';
 import { paginate, PaginationInfo } from '../../database';
 import { User, UserInput } from '@modules/user/user.type';
 import { UserRepositoryInterface } from './user.irepository';

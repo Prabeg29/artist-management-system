@@ -22,7 +22,7 @@ const createConnectionConfig = (tenant: Tenant) => {
       password: config.db.password
     },
     migrations: {
-      directory: path.join(__dirname, 'database/migrations'),
+      directory: path.join(__dirname, '../database/migrations'),
       tableName: 'migrations',
       extension: 'ts'
     },

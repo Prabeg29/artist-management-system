@@ -12,7 +12,7 @@ export default {
     database: config.db.database,
   },
   migrations: {
-    directory: path.join(__dirname, 'database/migrations'),
+    directory: path.join(__dirname, 'database/migrations/admin'),
     tableName: 'migrations',
     extension: 'ts'
   },

@@ -6,13 +6,13 @@ import { User, UserInput } from '../user.type';
 import { userInputStub, userStub } from './user.stub';
 import { HttpException } from '@exceptions/http.exception';
 import { KnexUserRepository } from '../knex-user.repository';
-import knexInstance, { PaginationInfo } from '../../../database';
+import  { PaginationInfo } from '../../../database';
 
 jest.mock('bcrypt');
 jest.mock('jsonwebtoken');
 
 describe('UserService', () => {
-  const knexUserRepository: KnexUserRepository = new KnexUserRepository(knexInstance);
+  const knexUserRepository: KnexUserRepository = new KnexUserRepository();
   const userService: UserService = new UserService(knexUserRepository);
 
   let mockFetchOneByEmail: jest.SpyInstance<Promise<User | undefined>, [email: string]>;
