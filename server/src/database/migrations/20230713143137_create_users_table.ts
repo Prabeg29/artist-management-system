@@ -8,18 +8,19 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable(dbTables.USERS, function (table) {
     table.increments();
 
-    table.string('first_name').notNullable();
-    table.string('last_name').notNullable();
+    table.string('fullName').notNullable();
     table.string('email').unique().notNullable();
+    table.dateTime('verifiedAt');
     table.string('password', 500).notNullable();
-    table.string('phone', 20).notNullable();
-    table.dateTime('dob').notNullable();
-    table.enu('gender', [gender.MALE, gender.FEMALE, gender.OTHER]).notNullable();
-    table.string('address').notNullable();
+    table.string('phone', 20);
+    table.dateTime('dob');
+    table.enu('gender', [gender.MALE, gender.FEMALE, gender.OTHER]);
+    table.string('address');
     table.enu('role', [roles.SUPER_ADMIN, roles.ARTIST_MANAGER, roles.ARTIST]).notNullable();
 
-    table.dateTime('created_at').defaultTo(knex.fn.now());
-    table.dateTime('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+    table.dateTime('createdAt').defaultTo(knex.fn.now());
+    table.dateTime('updatedAt').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+    table.dateTime('deletedAt').defaultTo(null);
   });
 }
 

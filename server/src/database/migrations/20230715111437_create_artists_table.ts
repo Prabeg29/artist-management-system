@@ -4,12 +4,13 @@ import { dbTables } from '../../enums/db-tables.enum';
 
 export async function up(knex: Knex): Promise<void> {
   const sql = `CREATE TABLE artists (
-    id                        INT       UNSIGNED NOT NULL AUTO_INCREMENT,
-    first_release_year        YEAR,
-    number_of_albums_released TINYINT,
-    user_id                   INT       UNSIGNED NOT NULL,
-    created_at                DATETIME  DEFAULT CURRENT_TIMESTAMP,
-    updated_at                DATETIME  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    id                     INT       UNSIGNED NOT NULL AUTO_INCREMENT,
+    firstReleaseYear       YEAR,
+    numberOfAlbumsReleased TINYINT,
+    userId                 INT       UNSIGNED NOT NULL,
+    createdAt              DATETIME  DEFAULT CURRENT_TIMESTAMP,
+    updatedAt              DATETIME  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deletedAt              DATETIME,
     
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
