@@ -17,13 +17,13 @@ export async function up(knex: Knex): Promise<void> {
     table.dateTime('updatedAt').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
     table.dateTime('deletedAt').defaultTo(null);
 
-    table.foreign('artist_id').references(`${dbTables.ARTISTS}.id`).onDelete('CASCADE');
+    table.foreign('artistId').references(`${dbTables.ARTISTS}.id`).onDelete('CASCADE');
   });
 }
 
 export async function down(knex: Knex): Promise<void> {
   await knex.schema.table(dbTables.SONGS, function (table) {
-    table.dropForeign(['artist_id']);
+    table.dropForeign(['artistId']);
   });
   await knex.schema.dropTable(dbTables.SONGS);
 }

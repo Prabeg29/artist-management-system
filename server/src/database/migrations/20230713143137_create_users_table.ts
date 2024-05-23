@@ -10,7 +10,6 @@ export async function up(knex: Knex): Promise<void> {
 
     table.string('fullName').notNullable();
     table.string('email').unique().notNullable();
-    table.dateTime('verifiedAt');
     table.string('password', 500).notNullable();
     table.string('phone', 20);
     table.dateTime('dob');

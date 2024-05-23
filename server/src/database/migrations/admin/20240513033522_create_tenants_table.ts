@@ -7,8 +7,9 @@ export async function up(knex: Knex): Promise<void> {
     table.increments();
 
     table.string('name').notNullable();
-    table.string('email').notNullable();
     table.string('domain').notNullable();
+    table.string('email').notNullable();
+    table.string('slug').notNullable();
     table.string('database').notNullable();
     table.dateTime('verifiedAt');
 

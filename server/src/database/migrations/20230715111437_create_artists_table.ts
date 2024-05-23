@@ -13,7 +13,7 @@ export async function up(knex: Knex): Promise<void> {
     deletedAt              DATETIME,
     
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
   );`;
 
   await knex.raw(sql);
@@ -21,7 +21,7 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   await knex.schema.table(dbTables.ARTISTS, function (table) {
-    table.dropForeign(['user_id', 'artists_ibfk_1']);
+    table.dropForeign(['userId', 'artists_ibfk_1']);
   });
   await knex.schema.dropTable(dbTables.ARTISTS);
 }
