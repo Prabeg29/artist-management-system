@@ -3,18 +3,24 @@ import path from 'path';
 import knex, { Knex } from 'knex';
 import { StatusCodes } from 'http-status-codes';
 
-import { defaultConn, defaultConfig } from '../knexfile';
+import config from '../config';
+import defaultConfig from '../knexfile';
 import { dbTables } from '../enums/db-tables.enum';
 import { Tenant } from '../modules/tenants/tenant.type';
 import { HttpException } from '../exceptions/http.exception';
+
+const defaultConn = knex(defaultConfig);
 
 let connectionMap: { [x: string]: Knex; };
 
 const createConnectionConfig = (tenant: Tenant) => {
   return {
-    ...defaultConfig,
+    client    : config.db.client,
     connection: {
-      ...defaultConfig.connection,
+      host    : config.db.host,
+      port    : config.db.port,
+      user    : config.db.user,
+      password: config.db.password,
       database: tenant.database,
     },
     migrations: {
@@ -98,6 +104,7 @@ const paginate = async <T>(
 };
 
 export {
+  defaultConn,
   connectAllDb,
   getConnection,
   paginate,
