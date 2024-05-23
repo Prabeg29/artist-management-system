@@ -6,7 +6,6 @@ import compression from 'compression';
 
 import config from './config';
 import routes from './routes';
-import logger from './utils/logger.util';
 import { connectAllDb } from './utils/db.util';
 import { connectionResolver } from './middlewares/connectionResolver';
 import { genericErrorHandler, routeNotFound } from './middlewares/errorHandler.middleware';
@@ -25,7 +24,7 @@ export class App {
   }
 
   public listen(port: string | number = this.port): Server {
-    return this.app.listen(port, () => logger.info(`Application running on ${config.app.url}`));
+    return this.app.listen(port, () => console.log(`Application running on ${config.app.url}`));
   }
 
   private loadMiddlewares(): void {
