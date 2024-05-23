@@ -24,8 +24,8 @@ export class KnexTenantRepository extends BaseRepository implements TenantReposi
       name    : tenantData.name,
       domain  : tenantData.domain,
       email   : tenantData.email,
-      phone   : tenantData.phone,
       database: tenantData.database,
+      slug    : tenantData.slug,
     }, ['id']);
   }
 }

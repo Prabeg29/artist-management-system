@@ -3,14 +3,15 @@ export type Tenant = {
   name: string;
   domain: string;
   email: string;
-  phone: string;
+  verifiedAt?: Date;
   database: string;
+  slug: string;
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
-}
+};
 
-export type CreateTenantDto = Omit<Tenant, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'> & { password: string; };
+export type CreateTenantDto = Omit<Tenant, 'id' | 'verifiedAt' | 'createdAt' | 'updatedAt' | 'deletedAt'> & { fullName: string; password: string; };
 
 export type TenantResponseDto = {
   id: number;
@@ -19,4 +20,4 @@ export type TenantResponseDto = {
     domain: string;
     database: string;
   },
-}
+};

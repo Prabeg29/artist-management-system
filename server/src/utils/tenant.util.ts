@@ -1,9 +1,7 @@
-const makeDatabaseSlug = (tenantName: string): string => {
-  return 'tenant_' + tenantName.toLowerCase().replace(/[\s-]+/g, '_');
-};
+const makeDatabaseSlug = (tenantName: string): string => 'tenant_' + tenantName.toLowerCase().replace(/[\s-]+/g, '_');
 
-const makeDomain = (tenantName: string): string => {
-  return tenantName.toLowerCase().replace(/[\s-]+/g, '-') + '.ams.test';
-};
+const makeDomain = (tenantName: string): string => makeSlug(tenantName) + '.ams.test';
 
-export { makeDatabaseSlug, makeDomain };
+const makeSlug = (tenantName: string): string => tenantName.toLowerCase().replace(/[\s-]+/g, '-');
+
+export { makeDatabaseSlug, makeDomain, makeSlug };

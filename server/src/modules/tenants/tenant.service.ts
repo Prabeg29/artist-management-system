@@ -19,7 +19,7 @@ export class TenantService {
 
     const [tenantId] = await this.tenantRepository.create(tenantData);
 
-    await config.queues.createTenantDb.add(`create-db-for-tenant-${1}`, tenantData);
+    await config.queues.createTenantDb.add(`create-db-for-tenant-${tenantId}`, tenantData);
 
     return await this.tenantRepository.fetchOneById(tenantId);
   }
