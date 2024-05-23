@@ -106,6 +106,7 @@ const paginate = async <T>(
 export {
   defaultConn,
   connectAllDb,
+  connectionMap,
   getConnection,
   paginate,
   PaginationInfo,
