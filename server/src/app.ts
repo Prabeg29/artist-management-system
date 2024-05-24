@@ -17,6 +17,7 @@ export class App {
   constructor() {
     this.app = express();
     this.port = config.app.port;
+    connectAllDb();
 
     this.loadMiddlewares();
     this.loadRoutes();
@@ -31,7 +32,6 @@ export class App {
     this.app.use(cors());
     this.app.use(compression());
     this.app.use(bodyParser.json());
-    connectAllDb();
     this.app.use(connectionResolver);
   }
 

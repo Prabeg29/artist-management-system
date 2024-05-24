@@ -2,22 +2,21 @@ import { roles } from '../../enums/roles.enum';
 
 export interface User {
   id: number;
-  first_name: string;
-  last_name: string;
+  fullName: string;
   email: string;
   password?: string;
-  phone: string;
-  dob: Date;
-  gender: string;
-  address: string;
+  phone?: string;
+  dob?: Date;
+  gender?: string;
+  address?: string;
   role: roles.ARTIST | roles.ARTIST_MANAGER | roles.SUPER_ADMIN;
-  created_at?: Date;
-  updated_at?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export type UserInput = Omit<User, 'id' | 'created_at' | 'updated_at'>; 
 
-export interface UserDto {
+export interface UserResponseDto {
   id: number;
   attributes: {
     name : string,
@@ -31,6 +30,7 @@ export interface UserDto {
     updated_at: string;
   },
   token? : string,
+  bearer : string
 }
 
-export type UserDtoCollection = UserDto[];
+export type UserResponseDtoCollection = UserResponseDto[];

@@ -7,7 +7,7 @@ import tenantsRoute from './tenants.route';
 
 const router: Router = Router();
 
-router.get('/ping', (req, res) => res.json({ message: 'pong', body: req.headers }));
+router.get('/ping', (_req, res) => res.json({ message: 'pong' }));
 router.use('/auth', authRoute);
 router.use('/users', usersRoute);
 router.use('/artists', artistsRoute);

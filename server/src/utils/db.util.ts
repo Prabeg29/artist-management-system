@@ -54,10 +54,10 @@ const getConnection = (subdomain = ''): Knex => {
     return defaultConn;
   }
 
-  const conn = connectionMap[subdomain];
+  const conn = connectionMap[subdomain + '.ams.test'];
 
   if (!conn) {
-    throw new HttpException('Connection is not set for any tenant database.', StatusCodes.BAD_REQUEST);
+    throw new HttpException(`Connection is not set for ${subdomain}.`, StatusCodes.BAD_REQUEST);
   }
 
   return conn;

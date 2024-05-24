@@ -34,7 +34,7 @@ export class AuthController {
 
     res.status(StatusCodes.OK).json({
       message: 'User signin successful.',
-      data   : UserMapper.toDto(user)
+      user   : UserMapper.toDto(user)
     });
   };
 }

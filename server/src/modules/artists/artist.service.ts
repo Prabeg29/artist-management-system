@@ -60,7 +60,7 @@ export class ArtistService {
 
     await this.artistRepository.update(artist.id, artistData);
 
-    return await this.fetchOneById(artist.artist_id);
+    return await this.fetchOneById(artist.artistId);
   }
 
   public async delete(id: number): Promise<void> {
