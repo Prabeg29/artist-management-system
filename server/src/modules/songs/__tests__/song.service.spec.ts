@@ -1,12 +1,12 @@
 import { SongService } from '../song.service';
 import { Song, SongInput } from '../song.type';
 import { songInputStub, songStub } from './song.stub';
-import { HttpException } from '@exceptions/http.exception';
+import { PaginationInfo } from '../../../utils/db.util';
 import { KnexSongRepository } from '../knex-song.repository';
-import knexInstance, { PaginationInfo } from '../../../database';
+import { HttpException } from '../../../exceptions/http.exception';
 
 describe('SongService', () => {
-  const knexSongRepository: KnexSongRepository = new KnexSongRepository(knexInstance);
+  const knexSongRepository: KnexSongRepository = new KnexSongRepository();
   const songService: SongService = new SongService(knexSongRepository);
 
   let mockFetchAllPaginated: jest.SpyInstance<
