@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 import { Knex } from 'knex';
 
-import { roles } from '@enums/roles.enum';
-import { gender } from '@enums/gender.enum';
-import { dbTables } from '@enums/db-tables.enum';
-import { UserInput } from '@modules/user/user.type';
+import { roles } from '../../enums/roles.enum';
+import { gender } from '../../enums/gender.enum';
+import { dbTables } from '../../enums/db-tables.enum';
+import { UserInput } from '../../modules/user/user.type';
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries

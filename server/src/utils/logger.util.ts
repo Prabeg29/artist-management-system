@@ -1,7 +1,8 @@
-import pino from 'pino';
 import { existsSync, mkdirSync } from 'fs';
 
-import config from '@config';
+import pino from 'pino';
+
+import config from '../config';
 
 const LOG_DIR = `${__dirname}/../../logs`;
 

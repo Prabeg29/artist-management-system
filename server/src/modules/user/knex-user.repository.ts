@@ -1,18 +1,15 @@
-import { Knex } from 'knex';
-
-import { dbTables } from '@enums/db-tables.enum';
-import { paginate, PaginationInfo } from '../../database';
-import { User, UserInput } from '@modules/user/user.type';
+import { User, UserInput } from './user.type';
+import { BaseRepository } from '../base.repository';
+import { dbTables } from '../../enums/db-tables.enum';
+import { paginate, PaginationInfo } from '../../utils/db.util';
 import { UserRepositoryInterface } from './user.irepository';
 
-export class KnexUserRepository implements UserRepositoryInterface {
-  constructor(protected readonly knex: Knex) { }
-
+export class KnexUserRepository extends BaseRepository implements UserRepositoryInterface{
   public async fetchOneByEmail(email: string): Promise<User | undefined> {
     return await this.knex<User>(dbTables.USERS).where('email', email).first();
   }
 
-  async create(userData: UserInput): Promise<number[]> {
+  public async create(userData: UserInput): Promise<number[]> {
     return await this.knex(dbTables.USERS).insert({ ...userData }, ['id']);
   }
 
@@ -26,11 +23,11 @@ export class KnexUserRepository implements UserRepositoryInterface {
     return await paginate<User>(this.knex<User>(dbTables.USERS), { currentPage, perPage });
   }
 
-  async update(id: number, userData: UserInput): Promise<boolean> {
+  public async update(id: number, userData: UserInput): Promise<boolean> {
     return await this.knex(dbTables.USERS).where('id', id).update({ ...userData });
   }
 
-  async delete(id: number): Promise<number> {
+  public async delete(id: number): Promise<number> {
     return await this.knex(dbTables.USERS).where('id', id).del();
   }
 }

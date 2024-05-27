@@ -1,6 +1,6 @@
 import path from 'path';
 
-import config from '@config';
+import config from './config';
 
 export default {
   client    : config.db.client,
@@ -12,7 +12,7 @@ export default {
     database: config.db.database,
   },
   migrations: {
-    directory: path.join(__dirname, 'database/migrations'),
+    directory: path.join(__dirname, 'database/migrations/admin'),
     tableName: 'migrations',
     extension: 'ts'
   },

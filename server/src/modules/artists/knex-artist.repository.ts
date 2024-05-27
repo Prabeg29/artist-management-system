@@ -1,35 +1,26 @@
-/* eslint-disable no-prototype-builtins */
-import { Knex } from 'knex';
-
-import logger from '@utils/logger';
-import { roles } from '@enums/roles.enum';
-import { dbTables } from '@enums/db-tables.enum';
-import { paginate, PaginationInfo } from '../../database';
-import { Artist, ArtistInput } from '@modules/artists/artist.type';
-import { KnexUserRepository } from '@modules/user/knex-user.repository';
-import { UserInput } from '@modules/user/user.type';
+import logger from '../../utils/logger.util';
+import { roles } from '../../enums/roles.enum';
+import { Artist, ArtistInput } from './artist.type';
+import { dbTables } from '../../enums/db-tables.enum';
+import { paginate, PaginationInfo } from '../../utils/db.util';
+import { KnexUserRepository } from '../user/knex-user.repository';
 
 export class KnexArtistRepository extends KnexUserRepository {
   protected selectParams: Array<string> = [
     `${dbTables.USERS}.id`,
-    `${dbTables.USERS}.first_name`,
-    `${dbTables.USERS}.last_name`,
+    `${dbTables.USERS}.fullName`,
     `${dbTables.USERS}.email`,
     `${dbTables.USERS}.phone`,
     `${dbTables.USERS}.dob`,
     `${dbTables.USERS}.gender`,
     `${dbTables.USERS}.role`,
     `${dbTables.USERS}.address`,
-    `${dbTables.ARTISTS}.id as artist_id`,
-    `${dbTables.ARTISTS}.first_release_year`,
-    `${dbTables.ARTISTS}.number_of_albums_released`,
-    `${dbTables.ARTISTS}.created_at`,
-    `${dbTables.ARTISTS}.updated_at`,
+    `${dbTables.ARTISTS}.id as artistId`,
+    `${dbTables.ARTISTS}.firstReleaseYear`,
+    `${dbTables.ARTISTS}.numberOfAlbumsReleased`,
+    `${dbTables.ARTISTS}.createdAt`,
+    `${dbTables.ARTISTS}.updatedAt`,
   ];
-
-  constructor(protected readonly knex: Knex) {
-    super(knex);
-  }
 
   public async fetchAllPaginated(
     currentPage: number, perPage: number
@@ -50,22 +41,21 @@ export class KnexArtistRepository extends KnexUserRepository {
 
     try {
       const [userId] = await trx(dbTables.USERS).insert({
-        first_name: artistData.first_name,
-        last_name : artistData.last_name,
-        email     : artistData.email,
-        password  : artistData.password,
-        phone     : artistData.phone,
-        address   : artistData.address,
-        gender    : artistData.gender,
-        role      : roles.ARTIST,
-        dob       : artistData.dob,
+        fullName: artistData.fullName,
+        email   : artistData.email,
+        password: artistData.password,
+        phone   : artistData.phone,
+        address : artistData.address,
+        gender  : artistData.gender,
+        role    : roles.ARTIST,
+        dob     : artistData.dob,
 
       }, ['id']);
 
       const [artistId] = await trx(dbTables.ARTISTS).insert({
-        user_id                  : userId,
-        first_release_year       : artistData?.first_release_year,
-        number_of_albums_released: artistData?.number_of_albums_released
+        userId                : userId,
+        firstReleaseYear      : artistData?.firstReleaseYear,
+        numberOfAlbumsReleased: artistData?.numberOfAlbumsReleased
       }, ['id']);
 
       await trx.commit();
@@ -91,8 +81,7 @@ export class KnexArtistRepository extends KnexUserRepository {
 
     try {
       if (
-        artistData?.first_name || 
-        artistData?.last_name || 
+        artistData?.fullName || 
         artistData?.email || 
         artistData?.password || 
         artistData?.phone ||
@@ -103,22 +92,21 @@ export class KnexArtistRepository extends KnexUserRepository {
         await trx(dbTables.USERS)
           .where('id', userId)
           .update({
-            first_name: artistData?.first_name,
-            last_name : artistData?.last_name,
-            email     : artistData?.email,
-            password  : artistData?.password,
-            phone     : artistData?.phone,
-            address   : artistData?.address,
-            gender    : artistData?.gender,
-            dob       : artistData?.dob,
+            fullname: artistData?.fullName,
+            email   : artistData?.email,
+            password: artistData?.password,
+            phone   : artistData?.phone,
+            address : artistData?.address,
+            gender  : artistData?.gender,
+            dob     : artistData?.dob,
           });
       }
 
       await trx(dbTables.ARTISTS)
         .where('user_id', userId)
         .update({
-          first_release_year       : artistData.first_release_year,
-          number_of_albums_released: artistData.number_of_albums_released
+          firstReleaseYear      : artistData.firstReleaseYear,
+          numberOfAlbumsReleased: artistData.numberOfAlbumsReleased
         });
 
       await trx.commit();

@@ -1,12 +1,9 @@
-import { Knex } from 'knex';
-
 import { Song, SongInput } from './song.type';
-import { dbTables } from '@enums/db-tables.enum';
-import { paginate, PaginationInfo } from '../../database';
+import { BaseRepository } from '../base.repository';
+import { dbTables } from '../../enums/db-tables.enum';
+import { paginate, PaginationInfo } from '../../utils/db.util';
 
-export class KnexSongRepository {
-  constructor(protected readonly knex: Knex) { }
-
+export class KnexSongRepository extends BaseRepository {
   async create(artistId: number, songData: SongInput): Promise<number[]> {
     return await this.knex(dbTables.SONGS).insert({ ...songData, artist_id: artistId}, ['id']);
   }

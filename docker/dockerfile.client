@@ -5,16 +5,16 @@ FROM node:lts-alpine
 WORKDIR /home/artist-management-system
 
 # Copy the package dependencies
-COPY package.json yarn.lock
+COPY ../client/package.json ../client/yarn.lock
 
-# Install npm dependencies
-RUN yarn install
+# Install dependencies
+RUN yarn
 
 # Copy the contents of current host dir to container working dir
-COPY . .
+COPY ../client .
 
 # Expose port for mapping
-EXPOSE 8848
+EXPOSE 3000
 
 # Command to start the app
-CMD ["yarn", "start:dev"]
+CMD ["yarn", "start"]

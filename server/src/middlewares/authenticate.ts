@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 import { NextFunction, Request, Response} from 'express';
 
-import config from '@config';
-import { HttpException } from '@exceptions/http.exception';
+import config from '../config';
+import { HttpException } from '../exceptions/http.exception';
 
 export const authenticate = (req: Request, _res: Response, next: NextFunction) => {
   if (!req.headers.authorization) {

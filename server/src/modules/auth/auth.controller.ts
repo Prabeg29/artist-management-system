@@ -1,27 +1,32 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-import { roles } from '@enums/roles.enum';
-import { UserMapper } from '@modules/user/user.mapper';
-import { UserService } from '@modules/user/user.service';
-import { User, UserInput } from '@modules/user/user.type';
-import { ArtistService } from '@modules/artists/artist.service';
-import { Artist, ArtistInput } from '@modules/artists/artist.type';
+import { UserInput } from '../user/user.type';
+import { UserMapper } from '../user/user.mapper';
+import { UserService } from '../user/user.service';
+import { CreateTenantDto } from '../tenants/tenant.type';
+import { TenantService } from '../tenants/tenant.service';
+import { makeDatabaseSlug, makeDomain, makeSlug } from '../../utils/tenant.util';
 
 export class AuthController {
   constructor(
+    protected readonly tenantService: TenantService,
     protected readonly userService: UserService,
-    protected readonly artistService: ArtistService
   ) {}
 
   public signup = async (req: Request, res: Response): Promise<void> => {
-    const { role }: { role: string; } = req.body;
+    await this.tenantService.create(
+      {
+        domain  : makeDomain(req.body.tenantName),
+        database: makeDatabaseSlug(req.body.tenantName),
+        name    : req.body.tenantName,
+        slug    : makeSlug(req.body.tenantName),
+        ...req.body 
+      } as CreateTenantDto
+    );
 
-    const user: User | Artist = role === roles.ARTIST ? 
-      await this.artistService.create(req.body as ArtistInput) :
-      await this.userService.create(req.body as UserInput);
-
-    res.status(StatusCodes.CREATED).json({ message: 'User signup successful. Please login to proceed', user: UserMapper.toDto(user)});
+    res.status(StatusCodes.CREATED)
+      .json({ message: 'Signup successfully.' });
   };
 
   public signin = async (req: Request, res: Response): Promise<void> => {
@@ -29,7 +34,7 @@ export class AuthController {
 
     res.status(StatusCodes.OK).json({
       message: 'User signin successful.',
-      data   : UserMapper.toDto(user)
+      user   : UserMapper.toDto(user)
     });
   };
 }
